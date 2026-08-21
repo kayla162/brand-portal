@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   設計 Token（Tailwind v4 直接在 CSS 定義主題）
+   改這裡就能換掉整站配色、字型、動畫節奏。
+   ========================================================================== */
+@theme {
+  /* 字型 */
+  --font-sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", ui-sans-serif,
+    system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Noto Serif TC", "Songti TC", "PingFang TC", ui-serif, Georgia, serif;
+
+  /* 色彩 */
+  --color-canvas: #fbf9f6; /* 頁面底色（象牙白） */
+  --color-surface: #ffffff; /* 卡片底色 */
+  --color-ink: #1a1c1b; /* 主文字 */
+  --color-muted: #6b6f6c; /* 次要文字 */
+  --color-hairline: #e8e3da; /* 分隔線 */
+  --color-forest: #1e3b33; /* 主色：墨綠 */
+  --color-forest-soft: #2c544a; /* 主色淺階 */
+  --color-brass: #a9834e; /* 輔色：黃銅 */
+
+  /* 動畫 */
+  --animate-rise: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-nudge: nudge 2.6s ease-in-out infinite;
+  --animate-drift: drift 22s ease-in-out infinite;
+  --animate-drift-slow: drift 34s ease-in-out infinite reverse;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, -3%, 0) scale(1.06);
+  }
+}
+
+/* ==========================================================================
+   基礎樣式
+   ========================================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-forest) 18%, transparent);
+  }
+
+  /* 鍵盤操作時才顯示外框，滑鼠點擊不顯示 */
+  :focus-visible {
+    outline: 2px solid var(--color-forest);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* ==========================================================================
+   無障礙：使用者若在系統關閉動畫，就不要動
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
