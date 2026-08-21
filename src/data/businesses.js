@@ -24,53 +24,56 @@
  */
 
 export const businesses = [
+    {
+    id: "hotel",
+    name: "和顏悦舍",
+    type: "stay",
+    category: "台東長濱",
+    description: "享受舒適、自在的住宿體驗。",
+    image: "/images/hotel.jpg",
+    imageAlt: "和顏悦舍外觀照片",
+    links: {
+      facebook: "https://www.facebook.com/share/1C47kvLZhQ/?mibextid=wwXIfr",
+      instagram: "https://www.instagram.com/hxu298688?igsi=MWJtYnpsbnczNmw5MA==",
+      line: "https://line.me/R/ti/p/@706nlpsu",
+      booking:"https://peaceful-begonia-112xs3t.mystrikingly.com/"
+    },
+    primary: "booking",
+    primaryLabel: "立即訂房",
+  },
   {
     id: "store-a",
-    name: "賣場 A",
+    name: "美妝保養",
     type: "store",
-    category: "精選商品",
+    category: "台灣官方授權通路",
     description: "探索我們精選的熱門商品。",
     image: "/images/store-a.jpg",
     imageAlt: "賣場 A 的精選商品情境照",
     links: {
-      facebook: "#",
-      instagram: "#",
-      website: "#",
+      facebook: "https://www.facebook.com/share/1B5ymaWk5Q/?mibextid=wwXIfr",
+      instagram: "https://www.instagram.com/kayla.swag.19?igsi=NWpibDdsNzIyY2hs&utm_source=qr",
+      line: "https://line.me/ti/p/x8Mttzc9sf",
+      website: "https://tw.shp.ee/9nCtqQxV"
     },
     primary: "website",
     primaryLabel: "前往賣場",
   },
   {
     id: "store-b",
-    name: "賣場 B",
+    name: "女裝服飾",
     type: "store",
     category: "生活選物",
     description: "發現更多實用又有質感的生活好物。",
     image: "/images/store-b.jpg",
     imageAlt: "賣場 B 的生活選物情境照",
     links: {
-      facebook: "#",
-      instagram: "#",
-      website: "#",
+      facebook: "https://www.facebook.com/share/1B5ymaWk5Q/?mibextid=wwXIfr",
+      instagram: "https://www.instagram.com/kayla.swag.19?igsi=NWpibDdsNzIyY2hs&utm_source=qr",
+      line: "https://line.me/ti/p/x8Mttzc9sf",
+      website: "https://tw.shp.ee/8G7WEMpL"
     },
     primary: "website",
     primaryLabel: "前往賣場",
-  },
-  {
-    id: "hotel",
-    name: "XXX 民宿",
-    type: "stay",
-    category: "旅宿",
-    description: "享受舒適、自在的住宿體驗。",
-    image: "/images/hotel.jpg",
-    imageAlt: "XXX 民宿的房間情境照",
-    links: {
-      facebook: "#",
-      instagram: "#",
-      booking: "#",
-    },
-    primary: "booking",
-    primaryLabel: "立即訂房",
   },
 ];
 
