@@ -10,7 +10,6 @@ export default function Hero() {
 
   return (
     <section
-      id="top"
       className="relative isolate flex min-h-[88svh] items-center overflow-hidden px-5 pb-20 pt-32 sm:px-8 sm:pb-28 sm:pt-40 lg:min-h-[92svh]"
     >
       {/* ---------- 背景裝飾（純視覺，對輔助科技隱藏） ---------- */}

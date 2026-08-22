@@ -15,7 +15,9 @@
  *    imageAlt    圖片替代文字（無障礙 / SEO 必填）
  *    links       各種外部連結，沒有的欄位直接刪掉即可，卡片會自動不顯示
  *                  facebook  / instagram / website（官方網站）/ booking（訂房）/ line
- *    primary     「前往」按鈕要打開 links 裡的哪一個 key
+ *    page        （選填）站內頁面網址，例如民宿的 "/stay"。
+ *                有填的話，「前往」按鈕會導向站內頁面，不是外部網址
+ *    primary     「前往」按鈕要打開 links 裡的哪一個 key（沒有 page 時才會用到）
  *    primaryLabel「前往」按鈕上的文字
  *
  *  ✚ 未來要新增第 4、第 5 個賣場：複製一個物件貼在陣列裡就好，
@@ -38,8 +40,9 @@ export const businesses = [
       line: "https://line.me/R/ti/p/@706nlpsu",
       booking:"https://peaceful-begonia-112xs3t.mystrikingly.com/"
     },
+    page: "/stay",
     primary: "booking",
-    primaryLabel: "立即訂房",
+    primaryLabel: "探索民宿",
   },
   {
     id: "store-a",

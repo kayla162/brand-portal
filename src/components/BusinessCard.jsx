@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { ArrowRight, BedDouble, Store } from "lucide-react";
 import { businessTypes } from "../data/businesses.js";
 import SocialLinks from "./SocialLinks.jsx";
@@ -27,6 +28,34 @@ const TYPE_STYLES = {
   },
 };
 
+/**
+ * 卡片上的連結。
+ * 資料裡有 page（例如民宿的 "/stay"）就用 React Router 的 <Link> 切換站內頁面，
+ * 不會整頁重新載入；沒有 page 就用一般 <a> 開外部網址。
+ */
+function CardLink({ page, href, className, ariaLabel, children }) {
+  if (page) {
+    return (
+      <Link to={page} className={className} aria-label={ariaLabel}>
+        {children}
+      </Link>
+    );
+  }
+
+  const isExternal = /^https?:\/\//i.test(href);
+
+  return (
+    <a
+      href={href}
+      className={className}
+      aria-label={ariaLabel}
+      {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    >
+      {children}
+    </a>
+  );
+}
+
 export default function BusinessCard({ business, index = 0, variant = "default" }) {
   const {
     name,
@@ -38,6 +67,7 @@ export default function BusinessCard({ business, index = 0, variant = "default" 
     links = {},
     primary,
     primaryLabel = "前往",
+    page,
   } = business;
 
   const style = TYPE_STYLES[type] ?? TYPE_STYLES.store;
@@ -46,10 +76,6 @@ export default function BusinessCard({ business, index = 0, variant = "default" 
 
   const isWide = variant === "wide";
   const primaryHref = links[primary] ?? "#";
-  const isExternal = /^https?:\/\//i.test(primaryHref);
-  const externalProps = isExternal
-    ? { target: "_blank", rel: "noopener noreferrer" }
-    : {};
 
   return (
     <article
@@ -117,13 +143,13 @@ export default function BusinessCard({ business, index = 0, variant = "default" 
         </p>
 
         <h3 className="mt-2.5 text-2xl font-medium sm:text-[1.75rem]">
-          <a
+          <CardLink
+            page={page}
             href={primaryHref}
-            {...externalProps}
             className="rounded-sm transition-colors duration-300 hover:text-forest"
           >
             {name}
-          </a>
+          </CardLink>
         </h3>
 
         <p
@@ -139,10 +165,10 @@ export default function BusinessCard({ business, index = 0, variant = "default" 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-x-4 gap-y-3 border-t border-hairline pt-4">
           <SocialLinks links={links} label={name} />
 
-          <a
+          <CardLink
+            page={page}
             href={primaryHref}
-            {...externalProps}
-            aria-label={`${primaryLabel}：${name}`}
+            ariaLabel={`${primaryLabel}：${name}`}
             className="group/cta inline-flex min-h-11 items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-medium text-white transition-[translate,background-color,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:bg-forest-soft hover:shadow-[0_10px_22px_-10px_rgba(30,59,51,0.75)]"
           >
             {primaryLabel}
@@ -152,7 +178,7 @@ export default function BusinessCard({ business, index = 0, variant = "default" 
               aria-hidden="true"
               className="transition-transform duration-300 ease-out group-hover/cta:translate-x-1"
             />
-          </a>
+          </CardLink>
         </div>
       </div>
     </article>

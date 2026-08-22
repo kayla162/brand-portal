@@ -1,7 +1,20 @@
-# 品牌總入口網站 V1.0
+# 品牌總入口網站 V2.0
 
-一個「2 個賣場 + 1 個民宿」的品牌入口首頁。使用者從 NFC 連結進來後，
-可以在一頁之內看到所有品牌，並直接前往各品牌的 Facebook / Instagram / 官方網站 / 訂房網站。
+和顏悦舍的品牌入口網站。使用者從 NFC 連結進來後，可以在一頁之內看到所有品牌，
+並直接前往各品牌的社群、賣場與訂房頁；民宿另外有一個「體驗中心」頁面。
+
+**線上網址：** https://brand-portal-hxu.vercel.app/
+
+## 頁面結構
+
+```
+/                首頁 —— Hero + 三張品牌卡片（民宿 / 美妝保養 / 女裝服飾）
+│
+└── /stay        民宿頁（體驗中心）
+    │            Hero + 立即訂房 → 民宿主人推薦 → 美食地圖入口 → 在地體驗 → 我們的位置
+    │
+    └── /food-map  美食地圖 —— 分類篩選 + 店家卡片 + Google Maps 連結
+```
 
 ## 技術
 
@@ -9,11 +22,12 @@
 | --- | --- |
 | React | 19 |
 | Vite | 8 |
-| Tailwind CSS | 4（透過 `@tailwindcss/vite`，設定寫在 `src/index.css` 的 `@theme`，沒有 tailwind.config.js） |
-| lucide-react | 1（品牌 icon 已被 lucide 移除，Facebook / Instagram / LINE 自製於 `src/components/icons/BrandIcons.jsx`） |
-| React Router | 7（V1.0 只有一個首頁，先架好殼，方便未來加子頁面） |
+| Tailwind CSS | 4（設定寫在 `src/index.css` 的 `@theme`，沒有 tailwind.config.js） |
+| React Router | 7 |
+| lucide-react | 1（品牌 icon 已被 lucide 移除，Facebook / Instagram / LINE 自製於 `icons/BrandIcons.jsx`） |
 
-純前端，沒有後端、資料庫、登入、購物車、金流。
+純前端。沒有後端、資料庫、登入、購物車、金流，也沒有使用 Google Maps API
+（地圖連結是一般的 Google Maps 公開網址）。
 
 ## 啟動
 
@@ -24,10 +38,8 @@ npm run dev
 
 開啟 http://localhost:5173
 
-其他指令：
-
 ```bash
-npm run build     # 產生 dist/（可直接部署到 Vercel / Netlify / Cloudflare Pages）
+npm run build     # 產生 dist/
 npm run preview   # 在本機預覽 build 後的結果
 ```
 
@@ -36,99 +48,148 @@ npm run preview   # 在本機預覽 build 後的結果
 ```
 .
 ├── index.html                      SEO meta（title / description / OG / JSON-LD）、字型、favicon
-├── vite.config.js                  Vite + React + Tailwind 外掛
+├── vercel.json                     SPA 路由設定（讓 /stay、/food-map 直接開也不會 404）
+├── vite.config.js
 ├── public/
 │   ├── favicon.svg / favicon.ico / apple-touch-icon.png
 │   └── images/
-│       ├── store-a.jpg             賣場 A 卡片圖（16:9）
-│       ├── store-b.jpg             賣場 B 卡片圖（16:9）
-│       ├── hotel.jpg               民宿卡片圖（16:9）
-│       └── hero.jpg                只用於社群分享預覽圖（og:image），頁面上不會顯示
+│       ├── store-a.jpg  store-b.jpg  hotel.jpg    品牌卡片圖（16:9）
+│       ├── hero.jpg                               只用於社群分享預覽，頁面上不顯示
+│       └── food/                                  美食店家圖（16:9）
 └── src/
-    ├── main.jsx                    進入點 + React Router 外殼
-    ├── App.jsx                     首頁組裝（只負責把區塊排好）
+    ├── main.jsx                    進入點（BrowserRouter）
+    ├── App.jsx                     共用外框（Header / Footer）+ 路由表
     ├── index.css                   設計 token（配色 / 字型 / 動畫）+ 基礎樣式
-    ├── data/
-    │   ├── businesses.js           ★ 品牌資料：名稱、介紹、圖片、所有連結
-    │   └── site.js                 ★ 網站文字：品牌名、標語、Hero、Footer、聯絡資訊
+    ├── pages/
+    │   ├── HomePage.jsx            首頁
+    │   ├── StayPage.jsx            民宿頁
+    │   └── FoodMapPage.jsx         美食地圖頁
+    ├── data/                       ★ 所有可修改的內容都在這裡
+    │   ├── businesses.js           三個品牌：名稱、介紹、圖片、所有連結
+    │   ├── site.js                 網站文字：品牌名、標語、Hero、Footer、聯絡資訊
+    │   ├── stay.js                 民宿頁文字、地址、Google Maps 連結
+    │   ├── food.js                 美食分類 + 店家清單
+    │   └── experiences.js          在地體驗四張卡片
     └── components/
-        ├── Header.jsx              Logo + 品牌名稱 + 標語（捲動後變毛玻璃）
-        ├── Hero.jsx                主標題 + 副標題 + 向下捲動提示
-        ├── BusinessGrid.jsx        卡片排版（手機 1 欄 / 桌機 2 欄）
-        ├── BusinessCard.jsx        可重複使用的品牌卡片
+        ├── Header.jsx              Logo + 品牌名稱 + 標語（捲動後變毛玻璃、跨頁導覽）
+        ├── Hero.jsx                首頁主視覺
+        ├── BusinessGrid.jsx        品牌卡片排版（手機 1 欄 / 桌機 2 欄）
+        ├── BusinessCard.jsx        品牌卡片
+        ├── FoodCard.jsx            美食店家卡片
+        ├── ExperienceCard.jsx      在地體驗卡片
+        ├── SectionHeading.jsx      區塊標題（各頁共用，避免重複樣式）
         ├── SocialLinks.jsx         社群 / 外部連結 icon 按鈕列
         ├── Footer.jsx              品牌 + 社群 + 聯絡資訊 + Copyright
         ├── Logo.jsx                Logo 標誌（SVG）
-        ├── Reveal.jsx              捲動進場動畫包裝元件
+        ├── Reveal.jsx              捲動進場動畫包裝
+        ├── ScrollToTop.jsx         換頁時自動捲回頂端
         └── icons/BrandIcons.jsx    Facebook / Instagram / LINE icon
 ```
 
 ## 資料與 UI 分離
 
-React 元件不知道有幾個品牌、也不知道品牌叫什麼名字，全部從 `src/data/` 讀。
-要改內容 **不需要動任何元件**。
+React 元件不知道有幾個品牌、有幾家店，全部從 `src/data/` 讀。
+**要改內容不需要動任何元件。**
 
-### 改品牌名稱 / 介紹 / 分類
-
-`src/data/businesses.js`：
+### 改品牌名稱 / 介紹 / 連結 → `data/businesses.js`
 
 ```js
 {
-  id: "store-a",
-  name: "賣場 A",            // ← 改這裡
-  type: "store",             // 'store' 顯示「賣場」標籤、'stay' 顯示「住宿」標籤
-  category: "精選商品",       // ← 改這裡
-  description: "探索我們精選的熱門商品。",  // ← 改這裡
-  ...
+  name: "和顏悦舍",
+  category: "台東長濱",
+  description: "享受舒適、自在的住宿體驗。",
+  links: {
+    facebook: "https://...",
+    instagram: "https://...",
+    line: "https://...",
+    booking: "https://...",      // 民宿用 booking，賣場用 website
+  },
+  page: "/stay",                 // 有 page 時，「前往」按鈕會走站內頁面
+  primaryLabel: "探索民宿",
 }
 ```
 
-### 改 Facebook / Instagram / 官網 / 訂房網址
+填 `https://` 開頭的網址會自動加上 `target="_blank"` 與 `rel="noopener noreferrer"`。
+不需要的 links 欄位直接刪掉，按鈕就不會出現。
 
-同一支檔案的 `links`。把 `"#"` 換成真實網址即可，
-換成 `https://` 開頭的網址後會自動加上 `target="_blank"` 與 `rel="noopener noreferrer"`：
+### 改美食店家 → `data/food.js`
 
 ```js
-links: {
-  facebook: "https://www.facebook.com/你的粉專",
-  instagram: "https://www.instagram.com/你的帳號",
-  website: "https://你的官網.com",
-  // 民宿用 booking 取代 website
-  // 不需要的欄位直接刪掉，按鈕就不會出現
+{
+  id: "lunch-1",
+  name: "XXX 牛肉麵",
+  category: "lunch",              // 必須是 foodCategories 其中一個 id
+  description: "第一次來這裡，我們最推薦這家。",
+  rating: 4.5,
+  distance: "步行 5 分鐘",
+  image: "/images/food/lunch-1.jpg",
+  imageAlt: "XXX 牛肉麵的招牌牛肉麵",
+  mapUrl: "https://maps.google.com/",
+  featured: true,                 // true 才會出現在民宿頁的「民宿主人推薦」
 }
 ```
 
-`primary` 決定「前往」按鈕連到哪一個 key，`primaryLabel` 是按鈕文字。
+`featured: true` 建議維持 **3 家**，推薦區是 3 欄，剛好排滿一列。
+
+要新增分類（例如「宵夜」），在同一支檔案的 `foodCategories` 加一筆即可，
+篩選按鈕會自動多一顆。
+
+### 改在地體驗 → `data/experiences.js`
+
+### 改民宿頁文字、地址、地圖連結 → `data/stay.js`
+
+### 改品牌總稱 / 標語 / Footer → `data/site.js`
+
+> ⚠️ SEO 的 title 與 description 在 `index.html`（爬蟲要在 HTML 裡就看到），
+> 換品牌名稱時記得一起改。
 
 ### 換圖片
 
-把新圖片放進 `public/images/`，然後改 `businesses.js` 的 `image` 與 `imageAlt`。
-建議 **1600×900（16:9）**、JPG、單張 300KB 以內。
+放進 `public/images/`（美食圖放 `public/images/food/`），
+改資料檔的 `image` 與 `imageAlt`。
+
+建議 **16:9**、JPG。品牌卡片圖 1600×900，美食圖 800×450。
+**上傳前先壓縮**（https://squoosh.app 品質調 80 左右），每張控制在 300 KB 以內。
 所有圖片使用 `object-fit: cover`，比例不同也不會變形，只會裁切。
 
-### 改品牌總稱 / 標語 / Footer
+### 新增頁面
 
-`src/data/site.js`。
-注意 **SEO 的 title 與 description 在 `index.html`**（爬蟲要在 HTML 裡就看到），
-換品牌名稱時記得一起改。
+1. 在 `src/pages/` 建立新的頁面元件
+2. 在 `src/App.jsx` 的 `<Routes>` 加一行 `<Route path="..." element={...} />`
 
-### 新增第 4、第 5 個賣場
-
-在 `businesses.js` 陣列裡複製一個物件貼上就好。排版會自動處理：
-偶數張 → 整齊的 2×2；奇數張 → 最後一張自動跨滿兩欄變成橫式卡片，右下角不會留空白。
+`vercel.json` 已經設定好 SPA rewrite，新頁面直接開網址或重新整理都不會 404。
 
 ## 已納入的無障礙與 SEO
 
 - 所有圖片有 `alt`、所有 icon 按鈕有 `aria-label` + tooltip
 - 完整鍵盤操作，`:focus-visible` 有明顯外框，第一個 Tab 是「跳至主要內容」
 - 語意標籤 `header` / `main` / `footer` / `nav` / `article`，標題階層 h1 → h2 → h3
+- 分類篩選使用 `<button>` + `aria-pressed`
 - 所有可點擊目標高度 ≥ 24px，主要按鈕 44px
-- 尊重 `prefers-reduced-motion`（系統關閉動畫時不播動畫）
+- 尊重 `prefers-reduced-motion`
 - 外部連結一律 `rel="noopener noreferrer"`
-- title / description / canonical / Open Graph / Twitter Card / JSON-LD Organization / favicon
+- title / description / canonical / Open Graph / Twitter Card / JSON-LD / favicon
 
-## V1.0 刻意不做
+## 未來 Roadmap（尚未實作）
 
-購物車、登入、會員、資料庫、後端 API、AI Chat、RAG、Agent、金流、訂單系統。
-架構圖裡的「房型 / 線上訂房 / 美食地圖」子頁面留到後續版本
-（`src/main.jsx` 的 Router 已經先架好，加 `<Route>` 就能擴充）。
+### V3
+
+- Channel Manager
+- 即時房況
+- 多平台訂房同步
+- 真正的互動式地圖（目前是外部 Google Maps 連結）
+- 在地體驗的子頁面（附近景點 / 一日遊 / 交通 / 旅遊資訊）
+
+### V4
+
+- AI 旅遊助手
+- AI 美食推薦
+- AI 行程規劃
+- RAG
+- AI Agent
+
+## 目前使用的是範例資料
+
+`data/food.js` 裡的 **8 家店全部是範例**（店名 `XXX ○○`、評價、距離都是假的），
+`data/stay.js` 的地址也還是「台東縣長濱鄉」。
+對外正式使用前請換成真實資料。
