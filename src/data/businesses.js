@@ -8,14 +8,14 @@
  *  欄位說明：
  *    id          唯一代號（英文小寫、用 - 連接），未來做子頁面路由會用到
  *    name        品牌名稱（卡片大標題）
- *    type        品牌類型：'store'（賣場）或 'stay'（旅宿）→ 決定卡片標籤樣式
+ *    type        品牌類型：'store'（賣場）或 'stay'（度假小屋）→ 決定卡片標籤樣式
  *    category    分類小標（顯示在名稱上方，例如「精選商品」）
  *    description 一到兩句簡短介紹
  *    image       圖片路徑，放在 public/images/ 底下，統一使用 16:9 比例
  *    imageAlt    圖片替代文字（無障礙 / SEO 必填）
  *    links       各種外部連結，沒有的欄位直接刪掉即可，卡片會自動不顯示
  *                  facebook  / instagram / website（官方網站）/ booking（訂房）/ line
- *    page        （選填）站內頁面網址，例如民宿的 "/stay"。
+ *    page        （選填）站內頁面網址，例如度假小屋的 "/stay"。
  *                有填的話，「前往」按鈕會導向站內頁面，不是外部網址
  *    primary     「前往」按鈕要打開 links 裡的哪一個 key（沒有 page 時才會用到）
  *    primaryLabel「前往」按鈕上的文字
@@ -31,7 +31,7 @@ export const businesses = [
     name: "和顏悦舍",
     type: "stay",
     category: "台東長濱",
-    description: "享受舒適、自在的住宿體驗。",
+    description: "享受舒適、自在的度假小屋體驗。",
     image: "/images/hotel.jpg",
     imageAlt: "和顏悦舍外觀照片",
     links: {
@@ -42,7 +42,7 @@ export const businesses = [
     },
     page: "/stay",
     primary: "booking",
-    primaryLabel: "探索民宿",
+    primaryLabel: "探索度假小屋",
   },
   {
     id: "store-a",
@@ -82,11 +82,11 @@ export const businesses = [
 
 /**
  * 品牌類型的顯示標籤。
- * 民宿使用「住宿」標籤，與賣場做出視覺區隔。
+ * 度假小屋與賣場使用不同標籤，做出視覺區隔。
  */
 export const businessTypes = {
   store: { label: "賣場" },
-  stay: { label: "住宿" },
+  stay: { label: "度假小屋" },
 };
 
 export default businesses;

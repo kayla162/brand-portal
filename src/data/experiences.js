@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- *  在地體驗（民宿頁「🗺️ 在地體驗」區塊）
+ *  在地體驗（度假小屋頁「🗺️ 在地體驗」區塊）
  * ----------------------------------------------------------------------------
  *  想增加或刪除項目，直接改這個陣列，ExperienceCard 會自動跟著變。
  *
@@ -17,7 +17,7 @@ export const experiences = [
     id: "attractions",
     emoji: "📍",
     title: "附近景點",
-    description: "探索民宿附近值得造訪的景點。",
+    description: "探索度假小屋附近值得造訪的景點。",
   },
   {
     id: "day-trip",
@@ -29,13 +29,13 @@ export const experiences = [
     id: "transport",
     emoji: "🚗",
     title: "交通",
-    description: "從車站、機場到民宿的交通方式。",
+    description: "從車站、機場到度假小屋的交通方式。",
   },
   {
     id: "travel-info",
     emoji: "📖",
     title: "旅遊資訊",
-    description: "住宿期間需要知道的實用資訊。",
+    description: "住在度假小屋時需要知道的實用資訊。",
   },
 ];
 

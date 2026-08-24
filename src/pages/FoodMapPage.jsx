@@ -36,7 +36,7 @@ export default function FoodMapPage() {
   return (
     <section className="px-5 pb-24 pt-32 sm:px-8 sm:pb-32 sm:pt-40">
       <div className="mx-auto max-w-6xl">
-        {/* 返回民宿頁 */}
+        {/* 返回度假小屋頁 */}
         <Link
           to="/stay"
           className="group inline-flex min-h-11 items-center gap-2 rounded-full text-sm font-medium text-muted transition-colors duration-300 hover:text-forest"
@@ -47,15 +47,15 @@ export default function FoodMapPage() {
             aria-hidden="true"
             className="transition-transform duration-300 ease-out group-hover:-translate-x-1"
           />
-          返回民宿
+          返回度假小屋
         </Link>
 
         {/* 頁面標題 */}
         <SectionHeading
           emoji="🍜"
-          eyebrow="民宿主人推薦"
+          eyebrow="度假小屋主人推薦"
           title="美食地圖"
-          description="從早餐、午餐、晚餐，到咖啡與甜點，探索民宿主人推薦的在地美食。"
+          description="從早餐、午餐、晚餐，到咖啡與甜點，探索度假小屋主人推薦的在地美食。"
           titleId="food-map-heading"
           className="mt-6"
         />

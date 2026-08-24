@@ -26,7 +26,7 @@ export const site = {
   /** 品牌卡片區的區塊標題 */
   brandsSection: {
     eyebrow: "我們的品牌",
-    title: "住宿 / 生活 / 體驗",
+    title: "度假小屋 / 生活 / 體驗",
     description:
       "每一個品牌都有各自的社群與官方網站。點擊卡片上的按鈕，直接前往你想去的地方。",
   },

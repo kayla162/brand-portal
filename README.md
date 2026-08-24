@@ -1,17 +1,17 @@
 # 品牌總入口網站 V2.0
 
 和顏悦舍的品牌入口網站。使用者從 NFC 連結進來後，可以在一頁之內看到所有品牌，
-並直接前往各品牌的社群、賣場與訂房頁；民宿另外有一個「體驗中心」頁面。
+並直接前往各品牌的社群、賣場與訂房頁；度假小屋另外有一個「體驗中心」頁面。
 
 **線上網址：** https://brand-portal-hxu.vercel.app/
 
 ## 頁面結構
 
 ```
-/                首頁 —— Hero + 三張品牌卡片（民宿 / 美妝保養 / 女裝服飾）
+/                首頁 —— Hero + 三張品牌卡片（度假小屋 / 美妝保養 / 女裝服飾）
 │
-└── /stay        民宿頁（體驗中心）
-    │            Hero + 立即訂房 → 民宿主人推薦 → 美食地圖入口 → 在地體驗 → 我們的位置
+└── /stay        度假小屋頁（體驗中心）
+    │            Hero + 立即訂房 → 度假小屋主人推薦 → 美食地圖入口 → 在地體驗 → 我們的位置
     │
     └── /food-map  美食地圖 —— 分類篩選 + 店家卡片 + Google Maps 連結
 ```
@@ -62,12 +62,12 @@ npm run preview   # 在本機預覽 build 後的結果
     ├── index.css                   設計 token（配色 / 字型 / 動畫）+ 基礎樣式
     ├── pages/
     │   ├── HomePage.jsx            首頁
-    │   ├── StayPage.jsx            民宿頁
+    │   ├── StayPage.jsx            度假小屋頁
     │   └── FoodMapPage.jsx         美食地圖頁
     ├── data/                       ★ 所有可修改的內容都在這裡
     │   ├── businesses.js           三個品牌：名稱、介紹、圖片、所有連結
     │   ├── site.js                 網站文字：品牌名、標語、Hero、Footer、聯絡資訊
-    │   ├── stay.js                 民宿頁文字、地址、Google Maps 連結
+    │   ├── stay.js                 度假小屋頁文字、地址、Google Maps 連結
     │   ├── food.js                 美食分類 + 店家清單
     │   └── experiences.js          在地體驗四張卡片
     └── components/
@@ -97,15 +97,15 @@ React 元件不知道有幾個品牌、有幾家店，全部從 `src/data/` 讀�
 {
   name: "和顏悦舍",
   category: "台東長濱",
-  description: "享受舒適、自在的住宿體驗。",
+  description: "享受舒適、自在的度假小屋體驗。",
   links: {
     facebook: "https://...",
     instagram: "https://...",
     line: "https://...",
-    booking: "https://...",      // 民宿用 booking，賣場用 website
+    booking: "https://...",      // 度假小屋用 booking，賣場用 website
   },
   page: "/stay",                 // 有 page 時，「前往」按鈕會走站內頁面
-  primaryLabel: "探索民宿",
+  primaryLabel: "探索度假小屋",
 }
 ```
 
@@ -125,7 +125,7 @@ React 元件不知道有幾個品牌、有幾家店，全部從 `src/data/` 讀�
   image: "/images/food/lunch-1.jpg",
   imageAlt: "XXX 牛肉麵的招牌牛肉麵",
   mapUrl: "https://maps.google.com/",
-  featured: true,                 // true 才會出現在民宿頁的「民宿主人推薦」
+  featured: true,                 // true 才會出現在度假小屋頁的「度假小屋主人推薦」
 }
 ```
 
@@ -136,7 +136,7 @@ React 元件不知道有幾個品牌、有幾家店，全部從 `src/data/` 讀�
 
 ### 改在地體驗 → `data/experiences.js`
 
-### 改民宿頁文字、地址、地圖連結 → `data/stay.js`
+### 改度假小屋頁文字、地址、地圖連結 → `data/stay.js`
 
 ### 改品牌總稱 / 標語 / Footer → `data/site.js`
 

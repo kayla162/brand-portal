@@ -16,7 +16,7 @@ import SocialLinks from "./SocialLinks.jsx";
  * ============================================================================
  */
 
-/** 依品牌類型切換標籤樣式與 icon：賣場＝白底黃銅字，民宿＝墨綠實心 */
+/** 依品牌類型切換標籤樣式與 icon：賣場＝白底黃銅字，度假小屋＝墨綠實心 */
 const TYPE_STYLES = {
   store: {
     Icon: Store,
@@ -30,7 +30,7 @@ const TYPE_STYLES = {
 
 /**
  * 卡片上的連結。
- * 資料裡有 page（例如民宿的 "/stay"）就用 React Router 的 <Link> 切換站內頁面，
+ * 資料裡有 page（例如度假小屋的 "/stay"）就用 React Router 的 <Link> 切換站內頁面，
  * 不會整頁重新載入；沒有 page 就用一般 <a> 開外部網址。
  */
 function CardLink({ page, href, className, ariaLabel, children }) {
@@ -114,7 +114,7 @@ export default function BusinessCard({ business, index = 0, variant = "default" 
           className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-transparent"
         />
 
-        {/* 類型標籤：民宿與賣場使用不同視覺 */}
+        {/* 類型標籤：度假小屋與賣場使用不同視覺 */}
         <span
           className={`absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[0.7rem] font-medium tracking-[0.14em] backdrop-blur-sm ${style.badge}`}
         >

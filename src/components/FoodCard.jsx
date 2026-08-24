@@ -3,7 +3,7 @@ import { foodCategories } from "../data/food.js";
 
 /**
  * 美食店家卡片。
- * 民宿頁的「民宿主人推薦」和美食地圖頁都用這一個元件。
+ * 度假小屋頁的「度假小屋主人推薦」和美食地圖頁都用這一個元件。
  *
  * 資料來自 src/data/food.js，這個元件只負責顯示。
  */
@@ -55,7 +55,7 @@ export default function FoodCard({ shop }) {
           </span>
           <span className="inline-flex items-center gap-1.5">
             <MapPin size={15} strokeWidth={1.75} aria-hidden="true" />
-            <span className="sr-only">與民宿的距離</span>
+            <span className="sr-only">與度假小屋的距離</span>
             {distance}
           </span>
         </div>

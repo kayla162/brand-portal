@@ -12,13 +12,13 @@ import SectionHeading from "../components/SectionHeading.jsx";
 import SocialLinks from "../components/SocialLinks.jsx";
 
 /**
- * 民宿頁（/stay）
+ * 度假小屋頁（/stay）
  *
- * 定位不是「住宿介紹頁」，而是「體驗中心」：
- *   Hero → 民宿主人推薦 → 美食地圖入口 → 在地體驗 → 我們的位置
+ * 定位不是「度假小屋介紹頁」，而是「體驗中心」：
+ *   Hero → 度假小屋主人推薦 → 美食地圖入口 → 在地體驗 → 我們的位置
  */
 export default function StayPage() {
-  // 民宿的名稱與訂房連結都來自 businesses.js，不在這裡重複寫一次
+  // 度假小屋的名稱與訂房連結都來自 businesses.js，不在這裡重複寫一次
   const hotel = businesses.find((business) => business.type === "stay");
 
   // 只顯示標記為 featured 的店家；完整清單在美食地圖頁
@@ -107,7 +107,7 @@ export default function StayPage() {
         </div>
       </section>
 
-      {/* ==================== 民宿主人推薦 ==================== */}
+      {/* ==================== 度假小屋主人推薦 ==================== */}
       <section
         aria-labelledby="recommend-heading"
         className="px-5 py-16 sm:px-8 sm:py-20"
