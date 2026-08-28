@@ -14,7 +14,8 @@
     │            Hero + 立即訂房 → 度假小屋主人推薦 → 美食地圖入口 → 在地體驗 → 我們的位置
     │
     ├── /food-map     美食地圖 —— 分類篩選 + 店家卡片 + Google Maps 連結
-    └── /attractions  附近景點 —— 依距離分組 + Google Maps 連結
+    ├── /attractions  附近景點 —— 依距離分組 + Google Maps 連結
+    └── /itineraries  半日遊・一日遊 —— 四條路線 + Google Maps 路線規劃
 ```
 
 ## 技術
@@ -65,14 +66,16 @@ npm run preview   # 在本機預覽 build 後的結果
     │   ├── HomePage.jsx            首頁
     │   ├── StayPage.jsx            度假小屋頁
     │   ├── FoodMapPage.jsx         美食地圖頁
-    │   └── AttractionsPage.jsx     附近景點頁
+    │   ├── AttractionsPage.jsx     附近景點頁
+    │   └── ItinerariesPage.jsx     半日遊・一日遊頁
     ├── data/                       ★ 所有可修改的內容都在這裡
     │   ├── businesses.js           三個品牌：名稱、介紹、圖片、所有連結
     │   ├── site.js                 網站文字：品牌名、標語、Hero、Footer、聯絡資訊
     │   ├── stay.js                 度假小屋頁文字、地址、Google Maps 連結
     │   ├── food.js                 美食分類 + 店家清單
     │   ├── experiences.js          在地體驗四張卡片
-    │   └── attractions.js          附近景點（分組 + 11 個景點）
+    │   ├── attractions.js          附近景點（分組 + 11 個景點）
+    │   └── itineraries.js          半日遊 / 一日遊 四條路線
     └── components/
         ├── Header.jsx              Logo + 品牌名稱 + 標語（捲動後變毛玻璃、跨頁導覽）
         ├── Hero.jsx                首頁主視覺
@@ -81,6 +84,7 @@ npm run preview   # 在本機預覽 build 後的結果
         ├── FoodCard.jsx            美食店家卡片
         ├── ExperienceCard.jsx      在地體驗卡片
         ├── AttractionCard.jsx      附近景點卡片
+        ├── ItineraryCard.jsx       行程卡片
         ├── SectionHeading.jsx      區塊標題（各頁共用，避免重複樣式）
         ├── SocialLinks.jsx         社群 / 外部連結 icon 按鈕列
         ├── Footer.jsx              品牌 + 社群 + 聯絡資訊 + Copyright
@@ -144,6 +148,12 @@ React 元件不知道有幾個品牌、有幾家店，全部從 `src/data/` 讀�
 `highlight: true` 會顯示「⭐ 最推薦」標籤。
 `mapUrl` 打開後如果找到的地點不對，直接改那一行的網址即可。
 
+### 改行程建議 → `data/itineraries.js`
+
+`stops` 是路線上的每一站，第一站與最後一站請保留度假小屋。
+`warning` 有填才會出現橘色的「出發前注意」區塊。
+`mapUrl` 是 Google Maps 路線規劃網址，waypoints 之間用 `|` 分隔。
+
 ### 改在地體驗 → `data/experiences.js`
 
 卡片加上 `link: "/某個頁面"` 就會出現「查看」按鈕（目前只有「附近景點」有）。
@@ -190,7 +200,7 @@ React 元件不知道有幾個品牌、有幾家店，全部從 `src/data/` 讀�
 - 即時房況
 - 多平台訂房同步
 - 真正的互動式地圖（目前是外部 Google Maps 連結）
-- 在地體驗剩下的子頁面（一日遊 / 交通 / 旅遊資訊）
+- 在地體驗剩下的子頁面（交通 / 旅遊資訊）
 
 ### V4
 

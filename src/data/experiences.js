@@ -25,7 +25,8 @@ export const experiences = [
     id: "day-trip",
     emoji: "🌄",
     title: "一日遊",
-    description: "幫你安排輕鬆的一日旅行。",
+    description: "四條路線，從半天輕鬆拍照到整天縱谷深度遊。",
+    link: "/itineraries",
   },
   {
     id: "transport",
