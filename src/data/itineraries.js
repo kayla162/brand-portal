@@ -13,6 +13,7 @@
  *    note        補充說明（顯示為 💡）
  *    warning     出發前要注意的事（顯示為 ⚠️），沒有就設為空字串
  *    mapUrl      Google Maps 路線規劃連結（外部網址，不需要 API 金鑰）
+ *                起訖點用度假小屋的座標（文字地址 Google 解析不出來）
  *                waypoints 之間用 | 分隔；地點找錯就直接改這一行
  * ============================================================================
  */
@@ -42,7 +43,7 @@ export const itineraries = [
     note: "八仙洞很值得前往，因為它同時具有海蝕洞地形和重要的長濱文化史前遺址。",
     warning: "",
     mapUrl:
-      "https://www.google.com/maps/dir/?api=1&origin=台東縣長濱鄉忠勇26-12號&destination=台東縣長濱鄉忠勇26-12號&waypoints=忠勇社區自行車道|金剛大道|長光梯田|金剛望海亭|八仙洞",
+      "https://www.google.com/maps/dir/?api=1&origin=23.324271,121.442431&destination=23.324271,121.442431&waypoints=忠勇社區自行車道|金剛大道|長光梯田|金剛望海亭|八仙洞",
   },
   {
     id: "half-b",
@@ -63,7 +64,7 @@ export const itineraries = [
     warning:
       "三仙台八拱橋目前正在整修，官方公告施工期間暫時封閉，預計 2027 年底完工。所以現在比較適合看海岸、岩礁與周邊景觀，不能把「走八拱橋登島」當成主要行程。",
     mapUrl:
-      "https://www.google.com/maps/dir/?api=1&origin=台東縣長濱鄉忠勇26-12號&destination=台東縣長濱鄉忠勇26-12號&waypoints=八仙洞|長濱海岸|三仙台|比西里岸部落",
+      "https://www.google.com/maps/dir/?api=1&origin=23.324271,121.442431&destination=23.324271,121.442431&waypoints=八仙洞|長濱海岸|三仙台|比西里岸部落",
   },
   {
     id: "full-a",
@@ -86,7 +87,7 @@ export const itineraries = [
     note: "東部海岸國家風景區沿著花蓮、台東海岸線延伸；其中都歷海灘退潮前後還有「天空之鏡」效果。",
     warning: "",
     mapUrl:
-      "https://www.google.com/maps/dir/?api=1&origin=台東縣長濱鄉忠勇26-12號&destination=台東縣長濱鄉忠勇26-12號&waypoints=金剛大道|八仙洞|三仙台|比西里岸部落|都歷海灘|都蘭新東糖廠|水往上流|都蘭觀海平台",
+      "https://www.google.com/maps/dir/?api=1&origin=23.324271,121.442431&destination=23.324271,121.442431&waypoints=金剛大道|八仙洞|三仙台|比西里岸部落|都歷海灘|都蘭新東糖廠|水往上流|都蘭觀海平台",
   },
   {
     id: "full-b",
@@ -109,7 +110,7 @@ export const itineraries = [
     note: "六十石山通常 8～9 月是金針花盛放期，2026 年花季為 8/8～10/11。",
     warning: "這條路線山路較多，比較推薦開汽車。",
     mapUrl:
-      "https://www.google.com/maps/dir/?api=1&origin=台東縣長濱鄉忠勇26-12號&destination=台東縣長濱鄉忠勇26-12號&waypoints=玉里|六十石山|赤科山|富里|池上|伯朗大道|大坡池|關山",
+      "https://www.google.com/maps/dir/?api=1&origin=23.324271,121.442431&destination=23.324271,121.442431&waypoints=玉里|六十石山|赤科山|富里|池上|伯朗大道|大坡池|關山",
   },
 ];
 

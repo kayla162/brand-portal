@@ -43,10 +43,19 @@ export const stay = {
     emoji: "📍",
     title: "我們的位置",
     /** 地址不放這裡：統一從 site.js 的 contact.address 讀，避免多個地方各寫一份 */
-    /** 查看地圖／導航：直接用 Google Maps 的公開網址，不需要 API 金鑰 */
-    mapUrl: "https://www.google.com/maps/search/?api=1&query=台東縣長濱鄉忠勇26-12號",
+    /**
+     * 查看地圖／導航：使用「座標」而不是文字地址。
+     *
+     * ⚠️ 請不要改回文字地址 —— Google 解析不出這個鄉間門牌，
+     *    會退回台灣中心點（南投一帶），定位差了 80 公里以上。
+     *    座標是絕對位置，不需要 Google 猜，也不需要 API 金鑰。
+     *
+     * 要換位置時：Google 地圖上對目標按右鍵（手機是長按），
+     * 最上面那一行就是座標，複製後換掉下面兩個網址裡的數字即可。
+     */
+    mapUrl: "https://www.google.com/maps/search/?api=1&query=23.324271,121.442431",
     directionsUrl:
-      "https://www.google.com/maps/dir/?api=1&destination=台東縣長濱鄉忠勇26-12號",
+      "https://www.google.com/maps/dir/?api=1&destination=23.324271,121.442431",
   },
 };
 
