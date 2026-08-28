@@ -42,12 +42,11 @@ export const stay = {
   location: {
     emoji: "📍",
     title: "我們的位置",
-    /** ← 請改成完整地址（會顯示在頁面上，也用來組 Google Maps 連結） */
-    address: "台東縣長濱鄉",
+    /** 地址不放這裡：統一從 site.js 的 contact.address 讀，避免多個地方各寫一份 */
     /** 查看地圖／導航：直接用 Google Maps 的公開網址，不需要 API 金鑰 */
-    mapUrl: "https://www.google.com/maps/search/?api=1&query=和顏悦舍",
+    mapUrl: "https://www.google.com/maps/search/?api=1&query=台東縣長濱鄉忠勇26-12號",
     directionsUrl:
-      "https://www.google.com/maps/dir/?api=1&destination=和顏悦舍",
+      "https://www.google.com/maps/dir/?api=1&destination=台東縣長濱鄉忠勇26-12號",
   },
 };
 

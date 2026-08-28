@@ -4,6 +4,7 @@ import { ArrowRight, CalendarCheck, MapPin, Navigation } from "lucide-react";
 import { businesses } from "../data/businesses.js";
 import { experiences } from "../data/experiences.js";
 import { foodShops } from "../data/food.js";
+import { site } from "../data/site.js";
 import { stay } from "../data/stay.js";
 import ExperienceCard from "../components/ExperienceCard.jsx";
 import FoodCard from "../components/FoodCard.jsx";
@@ -225,7 +226,7 @@ export default function StayPage() {
                 />
                 <span>
                   <span className="sr-only">地址：</span>
-                  {stay.location.address}
+                  {site.contact.address}
                 </span>
               </p>
 

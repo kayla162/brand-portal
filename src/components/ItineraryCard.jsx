@@ -1,5 +1,6 @@
-import { ChevronRight, Clock, Map, TriangleAlert } from "lucide-react";
+import { Clock, Map, TriangleAlert } from "lucide-react";
 import { itineraryTypes } from "../data/itineraries.js";
+import RouteSteps from "./RouteSteps.jsx";
 
 /**
  * 行程建議卡片（半日遊 / 一日遊）。
@@ -40,29 +41,7 @@ export default function ItineraryCard({ itinerary }) {
 
       {/* 路線 */}
       <div className="mt-6 border-t border-hairline pt-5">
-        <p className="text-[0.7rem] font-medium tracking-[0.22em] text-brass">
-          路線
-        </p>
-
-        <ol className="mt-3.5 flex flex-wrap items-center gap-y-2">
-          {stops.map((stop, index) => (
-            <li key={`${stop.name}-${index}`} className="flex items-center">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-forest/8 px-3 py-1.5 text-[0.85rem] text-ink">
-                <span aria-hidden="true">{stop.emoji}</span>
-                {stop.name}
-              </span>
-
-              {index < stops.length - 1 ? (
-                <ChevronRight
-                  size={15}
-                  strokeWidth={2}
-                  aria-hidden="true"
-                  className="mx-1 shrink-0 text-muted"
-                />
-              ) : null}
-            </li>
-          ))}
-        </ol>
+        <RouteSteps steps={stops} />
       </div>
 
       {/* 補充說明 */}

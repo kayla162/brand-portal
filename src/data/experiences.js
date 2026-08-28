@@ -32,7 +32,8 @@ export const experiences = [
     id: "transport",
     emoji: "🚗",
     title: "交通",
-    description: "從車站、機場到度假小屋的交通方式。",
+    description: "從玉里、花蓮、台東到度假小屋，五種抵達方式。",
+    link: "/transport",
   },
   {
     id: "travel-info",
