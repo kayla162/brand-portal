@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer.jsx";
 import Header from "./components/Header.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
+import AttractionsPage from "./pages/AttractionsPage.jsx";
 import FoodMapPage from "./pages/FoodMapPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import StayPage from "./pages/StayPage.jsx";
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/stay" element={<StayPage />} />
           <Route path="/food-map" element={<FoodMapPage />} />
+          <Route path="/attractions" element={<AttractionsPage />} />
           {/* 網址打錯時顯示首頁 */}
           <Route path="*" element={<HomePage />} />
         </Routes>

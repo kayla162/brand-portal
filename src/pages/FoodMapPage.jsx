@@ -57,6 +57,7 @@ export default function FoodMapPage() {
           title="美食地圖"
           description="從早餐、午餐、晚餐，到咖啡與甜點，探索度假小屋主人推薦的在地美食。"
           titleId="food-map-heading"
+          level={1}
           className="mt-6"
         />
 

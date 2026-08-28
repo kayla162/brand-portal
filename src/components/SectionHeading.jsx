@@ -1,8 +1,13 @@
 /**
  * 區塊標題（小標籤 + 主標題 + 說明）。
- * 首頁、度假小屋頁、美食地圖頁都用同一個，避免每個區塊重複寫一次一樣的樣式。
+ * 首頁、度假小屋頁、美食地圖頁、附近景點頁都用同一個，
+ * 避免每個區塊重複寫一次一樣的樣式。
  *
- * 所有欄位都可以不給：沒給就不會顯示。
+ * level：
+ *   2（預設）→ 用 <h2>，適合頁面中的其中一個區塊
+ *   1        → 用 <h1>，適合整個頁面的主標題（子頁面用這個）
+ *
+ * 其他欄位都可以不給：沒給就不會顯示。
  */
 export default function SectionHeading({
   emoji,
@@ -10,8 +15,11 @@ export default function SectionHeading({
   title,
   description,
   titleId,
+  level = 2,
   className = "",
 }) {
+  const Heading = level === 1 ? "h1" : "h2";
+
   return (
     <div className={`max-w-2xl ${className}`}>
       {eyebrow ? (
@@ -20,7 +28,7 @@ export default function SectionHeading({
         </p>
       ) : null}
 
-      <h2
+      <Heading
         id={titleId}
         className={`text-3xl font-medium sm:text-[2.5rem] ${eyebrow ? "mt-3" : ""}`}
       >
@@ -30,7 +38,7 @@ export default function SectionHeading({
           </span>
         ) : null}
         {title}
-      </h2>
+      </Heading>
 
       {description ? (
         <p className="mt-4 text-[0.95rem] leading-relaxed text-muted sm:text-base">

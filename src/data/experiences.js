@@ -9,6 +9,7 @@
  *    emoji       卡片上的圖示
  *    title       標題
  *    description 一句話說明
+ *    link        （選填）站內頁面網址。有填的話卡片下方會出現「查看」連結
  * ============================================================================
  */
 
@@ -18,6 +19,7 @@ export const experiences = [
     emoji: "📍",
     title: "附近景點",
     description: "探索度假小屋附近值得造訪的景點。",
+    link: "/attractions",
   },
   {
     id: "day-trip",
