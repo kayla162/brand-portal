@@ -32,6 +32,3 @@ logs
 # 快取
 .vite
 *.local
-
-# Google Apps Script 專案（訂房表 ⇄ 日曆同步），與這個網站無關，不進版控
-apps-script/
