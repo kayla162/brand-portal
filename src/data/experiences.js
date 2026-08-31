@@ -15,6 +15,13 @@
 
 export const experiences = [
   {
+    id: "events",
+    emoji: "🎪",
+    title: "最新活動",
+    description: "台東各地正在舉辦的活動，每天自動更新。",
+    link: "/events",
+  },
+  {
     id: "attractions",
     emoji: "📍",
     title: "附近景點",

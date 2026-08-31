@@ -1,54 +1,48 @@
+import generated from "./events.generated.json";
+
 /**
  * ============================================================================
  *  台東最新活動（/events 頁面）
  * ----------------------------------------------------------------------------
- *  ⚠️ 活動資訊會過期，所以頁面只會顯示「還沒結束」的活動：
- *     endDate 早於今天的活動會自動隱藏，不用手動刪除。
- *     也就是說，就算你很久沒更新，客人也不會看到早就結束的活動。
+ *  ⚠️ 活動清單是「自動產生」的，請不要手動編輯 events.generated.json，
+ *     下次自動更新就會被覆蓋。
  *
- *  欄位說明：
- *    id          唯一代號（英文小寫）
- *    name        活動名稱
- *    startDate   開始日期，格式一定要 "YYYY-MM-DD"（例如 "2026-10-05"）
- *    endDate     結束日期，同上。只有一天的活動就填一樣的日期
- *    location    舉辦地點
- *    description 一到兩句介紹
- *    link        （選填）官方活動頁網址
- *    mapUrl      （選填）Google Maps 連結
+ *  資料來源：交通部觀光署「觀光資訊資料庫開放資料 V2」（透過 TDX）
+ *  更新方式：GitHub Actions 每天台灣時間早上 5 點自動抓一次，
+ *            寫進 events.generated.json 後自動 commit，
+ *            Vercel 偵測到就重新部署。你完全不用維護。
  *
- *  加活動的步驟：把下面註解掉的範例複製一份，貼進 events 陣列，改成實際內容。
+ *  抓取條件：臺東縣 + 現在進行中（開始日已過、結束日還沒到）
+ *  想改條件（例如只留北段鄉鎮、或加入即將開始的活動）→
+ *  改 scripts/fetch-taitung-events.mjs 裡的 $filter。
+ *
+ *  頁面另外還有一層保險：endDate 已經過的活動不會顯示。
+ *  萬一自動更新壞掉好幾天，客人也不會看到已經結束的活動。
+ *
+ *  下面 eventsPage 的文字是手動維護的，可以自由修改。
  * ============================================================================
  */
 
 export const eventsPage = {
   emoji: "🎪",
-  eyebrow: "度假小屋主人整理",
+  eyebrow: "每日自動更新",
   title: "台東最新活動",
   description:
-    "住在長濱的期間，台東各地有哪些正在舉辦或即將登場的活動，都整理在這裡。",
-  note: "活動日期與內容以主辦單位公告為準，出發前請再確認一次。",
+    "住在長濱的期間，台東各地正在舉辦哪些活動，這裡每天自動更新一次。",
+  note: "資料來自交通部觀光署開放資料。活動日期與內容以主辦單位公告為準，出發前請再確認一次。",
   /** 想看完整活動列表時的出口 */
   moreLink: {
     label: "台東觀光旅遊網",
     url: "https://tour.taitung.gov.tw/",
   },
   /** 目前沒有進行中的活動時顯示的文字 */
-  emptyText: "目前沒有正在進行或即將登場的活動。",
+  emptyText: "目前沒有正在進行的活動。",
 };
 
-export const events = [
-  // ↓↓↓ 把這段複製一份、拿掉註解、改成實際活動即可 ↓↓↓
-  //
-  // {
-  //   id: "balloon-2027",
-  //   name: "台灣國際熱氣球嘉年華",
-  //   startDate: "2027-07-01",
-  //   endDate: "2027-08-15",
-  //   location: "台東縣鹿野鄉 鹿野高台",
-  //   description: "每年夏天在鹿野高台舉行的熱氣球活動，有繫留體驗與光雕音樂會。",
-  //   link: "https://balloontaiwan.taitung.gov.tw/",
-  //   mapUrl: "https://www.google.com/maps/search/?api=1&query=鹿野高台 台東",
-  // },
-];
+/** 自動抓回來的活動清單 */
+export const events = generated.events;
+
+/** 資料最後更新時間（ISO 字串） */
+export const eventsUpdatedAt = generated._更新時間;
 
 export default events;

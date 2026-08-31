@@ -17,7 +17,7 @@
     ├── /attractions  附近景點 —— 依距離分組 + Google Maps 連結
     ├── /itineraries  半日遊・一日遊 —— 四條路線 + Google Maps 路線規劃
     ├── /transport    交通方式 —— 五種抵達方式 + 導航
-    └── /events       台東最新活動 —— 過期活動自動隱藏（尚未從度假小屋頁連入）
+    └── /events       台東最新活動 —— 每日自動從 TDX 抓取
 ```
 
 ## 技術
@@ -53,6 +53,11 @@ npm run preview   # 在本機預覽 build 後的結果
 .
 ├── index.html                      SEO meta（title / description / OG / JSON-LD）、字型、favicon
 ├── vercel.json                     SPA 路由設定（讓 /stay、/food-map 直接開也不會 404）
+├── .github/workflows/
+│   └── update-events.yml           每天自動更新台東活動資料
+├── scripts/
+│   ├── fetch-taitung-events.mjs    從 TDX 抓活動，寫成 events.generated.json
+│   └── check-tdx-events.mjs        檢查 TDX 資料量與品質（開發用）
 ├── vite.config.js
 ├── public/
 │   ├── favicon.svg / favicon.ico / apple-touch-icon.png
@@ -81,7 +86,8 @@ npm run preview   # 在本機預覽 build 後的結果
     │   ├── attractions.js          附近景點（分組 + 11 個景點）
     │   ├── itineraries.js          半日遊 / 一日遊 四條路線
     │   ├── transport.js            交通方式五種路線
-    │   └── events.js               台東活動（目前是空的，等你填）
+    │   ├── events.js               台東活動頁文字
+    │   └── events.generated.json   ★ 自動產生，請勿手動編輯
     └── components/
         ├── Header.jsx              Logo + 品牌名稱 + 標語（捲動後變毛玻璃、跨頁導覽）
         ├── Hero.jsx                首頁主視覺
@@ -157,16 +163,30 @@ React 元件不知道有幾個品牌、有幾家店，全部從 `src/data/` 讀�
 `highlight: true` 會顯示「⭐ 最推薦」標籤。
 `mapUrl` 打開後如果找到的地點不對，直接改那一行的網址即可。
 
-### 改台東活動 → `data/events.js`
+### 台東活動 → 全自動，不用維護
 
-每筆活動要有 `startDate` 與 `endDate`，格式一定是 `"YYYY-MM-DD"`。
-**頁面只顯示 `endDate` 還沒過的活動**，過期的會自動隱藏，不用手動刪。
-所以就算很久沒更新，客人也不會看到早就結束的活動。
+活動清單由 GitHub Actions **每天台灣時間早上 5 點**自動更新：
 
-`link`（官方活動頁）與 `mapUrl` 都是選填，沒填按鈕就不會出現。
+```
+TDX 觀光活動 API → scripts/fetch-taitung-events.mjs
+  → src/data/events.generated.json → 自動 commit → Vercel 自動部署
+```
 
-⚠️ 目前 `events` 是空陣列，`/events` 會顯示「目前沒有活動」。
-填入活動後，記得到 `data/experiences.js` 加一張卡片連過去。
+抓取條件：臺東縣 + 現在進行中。想改條件（例如只留北段鄉鎮、
+或加入即將開始的活動）→ 改 `scripts/fetch-taitung-events.mjs` 裡的 `$filter`。
+
+頁面文字（標題、說明、提醒）在 `data/events.js`，這部分是手動維護的。
+
+⚠️ `events.generated.json` 是自動產生的，改了下次會被覆蓋。
+
+**需要在 GitHub 設定兩個 Secret**（Settings → Secrets and variables → Actions）：
+`TDX_CLIENT_ID`、`TDX_CLIENT_SECRET`。
+
+本機要手動跑一次的話：
+
+```bash
+node --env-file=scripts/.env scripts/fetch-taitung-events.mjs
+```
 
 ### 改交通方式 → `data/transport.js`
 

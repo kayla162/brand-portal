@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowUpRight, Info } from "lucide-react";
-import { events, eventsPage } from "../data/events.js";
+import { events, eventsPage, eventsUpdatedAt } from "../data/events.js";
 import EventCard from "../components/EventCard.jsx";
 import Reveal from "../components/Reveal.jsx";
 import SectionHeading from "../components/SectionHeading.jsx";
@@ -23,6 +23,16 @@ function getTodayString() {
   const now = new Date();
   const pad = (n) => String(n).padStart(2, "0");
   return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+}
+
+/** 把資料更新時間顯示成 "2026/08/31 14:08"（台灣時間） */
+function formatUpdatedAt(isoString) {
+  const d = new Date(isoString);
+  const pad = (n) => String(n).padStart(2, "0");
+  return (
+    `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} ` +
+    `${pad(d.getHours())}:${pad(d.getMinutes())}`
+  );
 }
 
 export default function EventsPage() {
@@ -95,12 +105,19 @@ export default function EventsPage() {
           </p>
         )}
 
+        {/* 資料更新時間 */}
+        {eventsUpdatedAt ? (
+          <p className="mt-8 text-[0.8rem] text-muted">
+            資料更新時間：{formatUpdatedAt(eventsUpdatedAt)}
+          </p>
+        ) : null}
+
         {/* 看完整活動列表 */}
         <Reveal>
-          <div className="mt-12 rounded-[1.5rem] bg-brass/10 p-6 sm:mt-14 sm:p-7">
+          <div className="mt-8 rounded-[1.5rem] bg-brass/10 p-6 sm:mt-10 sm:p-7">
             <h2 className="text-lg font-medium">想看更多台東的活動？</h2>
             <p className="mt-2.5 text-[0.9rem] leading-relaxed text-muted">
-              這裡只整理我們覺得值得推薦的活動。完整的活動列表可以到官方網站查看。
+              這裡列出的是目前進行中的活動。完整的活動列表可以到官方網站查看。
             </p>
             <a
               href={eventsPage.moreLink.url}

@@ -79,7 +79,8 @@ export default function EventCard({ event, status }) {
         ) : null}
       </div>
 
-      <p className="mt-3.5 flex-1 text-[0.9rem] leading-relaxed text-muted">
+      {/* 有些活動描述長達數百字，用 line-clamp 限制行數，卡片才不會爆開 */}
+      <p className="mt-3.5 flex-1 text-[0.9rem] leading-relaxed text-muted line-clamp-5">
         {description}
       </p>
 

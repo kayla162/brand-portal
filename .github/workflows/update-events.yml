@@ -1,0 +1,45 @@
+name: 更新台東活動資料
+
+on:
+  schedule:
+    # cron 用的是 UTC 時間。UTC 21:00 = 台灣時間隔天早上 05:00
+    - cron: "0 21 * * *"
+  # 也可以到 Actions 分頁手動按「Run workflow」立刻跑一次
+  workflow_dispatch:
+
+# 需要寫入權限才能把更新後的 JSON commit 回 repo
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 取得程式碼
+        uses: actions/checkout@v4
+
+      - name: 安裝 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: 從 TDX 抓取活動資料
+        # 金鑰存在 GitHub 的 Settings → Secrets and variables → Actions
+        env:
+          TDX_CLIENT_ID: ${{ secrets.TDX_CLIENT_ID }}
+          TDX_CLIENT_SECRET: ${{ secrets.TDX_CLIENT_SECRET }}
+        run: node scripts/fetch-taitung-events.mjs
+
+      - name: 有變動才 commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/events.generated.json
+          if git diff --staged --quiet; then
+            echo "活動資料沒有變動，不需要 commit"
+          else
+            git commit -m "chore: 自動更新台東活動資料"
+            git push
+            echo "已更新並推送，Vercel 會自動重新部署"
+          fi
