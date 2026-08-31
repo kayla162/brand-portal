@@ -39,6 +39,13 @@ export const eventsPage = {
   emptyText: "目前沒有正在進行的活動。",
 };
 
+/**
+ * 度假小屋所在的鄉鎮。
+ * 活動的 town 等於這個值時，卡片上會多一個「長濱鄉」標籤，
+ * 讓客人一眼看出哪些活動就在附近。以後抓到的新活動也會自動標。
+ */
+export const LOCAL_TOWN = "長濱鄉";
+
 /** 自動抓回來的活動清單 */
 export const events = generated.events;
 

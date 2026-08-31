@@ -108,6 +108,8 @@ function toSiteEvent(tdxEvent) {
 
   return {
     id: tdxEvent.EventID,
+    // 鄉鎮單獨留一欄，網站端才能標出「長濱鄉」的活動
+    town: address.Town ?? "",
     name: tdxEvent.EventName,
     // 日期只留 YYYY-MM-DD，網站端是用字串比大小判斷有沒有過期
     startDate: (tdxEvent.StartDateTime ?? "").slice(0, 10),

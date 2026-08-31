@@ -1,4 +1,5 @@
 import { ArrowUpRight, CalendarDays, MapPin } from "lucide-react";
+import { LOCAL_TOWN } from "../data/events.js";
 
 /**
  * 活動卡片。
@@ -19,9 +20,12 @@ const STATUS_STYLES = {
 };
 
 export default function EventCard({ event, status }) {
-  const { name, startDate, endDate, location, description, link, mapUrl } = event;
+  const { name, town, startDate, endDate, location, description, link, mapUrl } = event;
 
   const statusInfo = STATUS_STYLES[status] ?? STATUS_STYLES.upcoming;
+
+  // 活動就辦在度假小屋所在的鄉鎮時，多標一個標籤讓客人一眼看到
+  const isLocal = town === LOCAL_TOWN;
 
   // 只有一天的活動就不顯示「起 ～ 迄」
   const dateText =
@@ -39,11 +43,20 @@ export default function EventCard({ event, status }) {
           🎪
         </span>
 
-        <span
-          className={`inline-flex items-center rounded-full px-3 py-1.5 text-[0.7rem] font-medium tracking-[0.1em] ${statusInfo.className}`}
-        >
-          {statusInfo.label}
-        </span>
+        <div className="flex flex-wrap justify-end gap-2">
+          {isLocal ? (
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-brass/12 px-3 py-1.5 text-[0.7rem] font-medium tracking-[0.1em] text-brass">
+              <MapPin size={13} strokeWidth={2} aria-hidden="true" />
+              {LOCAL_TOWN}
+            </span>
+          ) : null}
+
+          <span
+            className={`inline-flex items-center rounded-full px-3 py-1.5 text-[0.7rem] font-medium tracking-[0.1em] ${statusInfo.className}`}
+          >
+            {statusInfo.label}
+          </span>
+        </div>
       </div>
 
       <h2 className="mt-5 text-lg font-medium">{name}</h2>

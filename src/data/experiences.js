@@ -42,12 +42,6 @@ export const experiences = [
     description: "從玉里、花蓮、台東到度假小屋，五種抵達方式。",
     link: "/transport",
   },
-  {
-    id: "travel-info",
-    emoji: "📖",
-    title: "旅遊資訊",
-    description: "住在度假小屋時需要知道的實用資訊。",
-  },
 ];
 
 export default experiences;
