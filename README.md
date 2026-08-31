@@ -74,7 +74,7 @@ npm run preview   # 在本機預覽 build 後的結果
     │   ├── businesses.js           三個品牌：名稱、介紹、圖片、所有連結
     │   ├── site.js                 網站文字：品牌名、標語、Hero、Footer、聯絡資訊
     │   ├── stay.js                 度假小屋頁文字、地址、Google Maps 連結
-    │   ├── food.js                 美食分類 + 23 家店 + 提醒文字
+    │   ├── food.js                 美食 4 分類 + 23 家店 + 提醒文字
     │   ├── experiences.js          在地體驗四張卡片
     │   ├── attractions.js          附近景點（分組 + 11 個景點）
     │   ├── itineraries.js          半日遊 / 一日遊 四條路線
@@ -127,22 +127,20 @@ React 元件不知道有幾個品牌、有幾家店，全部從 `src/data/` 讀�
 
 ### 改美食店家 → `data/food.js`
 
-必填只有四個欄位：
-
 ```js
 {
   id: "cafe-huazhai",
   name: "花宅咖啡",
   category: "cafe",              // 必須是 foodCategories 其中一個 id
+  description: "隱身於老宅中的溫馨咖啡館…",
+  highlight: true,               // true 會顯示「⭐ 最推薦」標籤
   mapUrl: mapUrl("花宅咖啡"),     // 用店名自動組 Google Maps 搜尋連結
   featured: true,                // true 才會出現在度假小屋頁的推薦區
 }
 ```
 
-`description`、`rating`、`distance`、`image`、`imageAlt` 都是選填，
-沒填卡片會自動收合那一區，不會留白。
-
-⚠️ 評價與距離請填實際查證過的數字；照片請用自己拍的或店家授權的。
+卡片版面與附近景點一致：分類圖示 + 最推薦標籤 → 店名 → 介紹 → 查看地圖。
+圖示會自動用該分類的 emoji，不用逐家設定。
 
 `featured: true` 建議維持 **3 家**，推薦區是 3 欄，剛好排滿一列。
 
