@@ -3,6 +3,7 @@ import Footer from "./components/Footer.jsx";
 import Header from "./components/Header.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import AttractionsPage from "./pages/AttractionsPage.jsx";
+import EventsPage from "./pages/EventsPage.jsx";
 import FoodMapPage from "./pages/FoodMapPage.jsx";
 import ItinerariesPage from "./pages/ItinerariesPage.jsx";
 import TransportPage from "./pages/TransportPage.jsx";
@@ -39,6 +40,7 @@ export default function App() {
           <Route path="/attractions" element={<AttractionsPage />} />
           <Route path="/itineraries" element={<ItinerariesPage />} />
           <Route path="/transport" element={<TransportPage />} />
+          <Route path="/events" element={<EventsPage />} />
           {/* 網址打錯時顯示首頁 */}
           <Route path="*" element={<HomePage />} />
         </Routes>
