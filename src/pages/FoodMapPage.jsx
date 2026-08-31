@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
-import { foodCategories, foodShops } from "../data/food.js";
+import { ArrowLeft, Info } from "lucide-react";
+import { foodCategories, foodNotes, foodShops } from "../data/food.js";
 import FoodCard from "../components/FoodCard.jsx";
 import Reveal from "../components/Reveal.jsx";
 import SectionHeading from "../components/SectionHeading.jsx";
@@ -55,11 +55,22 @@ export default function FoodMapPage() {
           emoji="🍜"
           eyebrow="度假小屋主人推薦"
           title="美食地圖"
-          description="從早餐、午餐、晚餐，到咖啡與甜點，探索度假小屋主人推薦的在地美食。"
+          description="從早餐、咖啡下午茶，到家常菜與無菜單料理，探索度假小屋主人推薦的在地美食。"
           titleId="food-map-heading"
           level={1}
           className="mt-6"
         />
+
+        {/* 營業時間提醒 */}
+        <p className="mt-6 flex max-w-2xl items-start gap-2.5 text-[0.875rem] leading-relaxed text-muted">
+          <Info
+            size={17}
+            strokeWidth={1.75}
+            aria-hidden="true"
+            className="mt-0.5 shrink-0 text-brass"
+          />
+          {foodNotes.general}
+        </p>
 
         {/* 分類篩選 */}
         <div
@@ -106,6 +117,21 @@ export default function FoodMapPage() {
             這個分類還沒有推薦的店家。
           </p>
         )}
+
+        {/* 小提醒 */}
+        <Reveal>
+          <div className="mt-12 rounded-[1.5rem] bg-brass/10 p-6 sm:mt-14 sm:p-7">
+            <h2 className="text-lg font-medium">
+              <span aria-hidden="true" className="mr-2.5">
+                {foodNotes.tip.emoji}
+              </span>
+              {foodNotes.tip.title}
+            </h2>
+            <p className="mt-3 text-[0.9rem] leading-relaxed text-muted">
+              {foodNotes.tip.text}
+            </p>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

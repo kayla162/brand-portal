@@ -13,7 +13,7 @@
 └── /stay        度假小屋頁（體驗中心）
     │            Hero + 立即訂房 → 度假小屋主人推薦 → 美食地圖入口 → 在地體驗 → 我們的位置
     │
-    ├── /food-map     美食地圖 —— 分類篩選 + 店家卡片 + Google Maps 連結
+    ├── /food-map     美食地圖 —— 4 分類 23 家店 + Google Maps 連結
     ├── /attractions  附近景點 —— 依距離分組 + Google Maps 連結
     ├── /itineraries  半日遊・一日遊 —— 四條路線 + Google Maps 路線規劃
     └── /transport    交通方式 —— 五種抵達方式 + 導航
@@ -74,7 +74,7 @@ npm run preview   # 在本機預覽 build 後的結果
     │   ├── businesses.js           三個品牌：名稱、介紹、圖片、所有連結
     │   ├── site.js                 網站文字：品牌名、標語、Hero、Footer、聯絡資訊
     │   ├── stay.js                 度假小屋頁文字、地址、Google Maps 連結
-    │   ├── food.js                 美食分類 + 店家清單
+    │   ├── food.js                 美食分類 + 23 家店 + 提醒文字
     │   ├── experiences.js          在地體驗四張卡片
     │   ├── attractions.js          附近景點（分組 + 11 個景點）
     │   ├── itineraries.js          半日遊 / 一日遊 四條路線
@@ -127,25 +127,27 @@ React 元件不知道有幾個品牌、有幾家店，全部從 `src/data/` 讀�
 
 ### 改美食店家 → `data/food.js`
 
+必填只有四個欄位：
+
 ```js
 {
-  id: "lunch-1",
-  name: "XXX 牛肉麵",
-  category: "lunch",              // 必須是 foodCategories 其中一個 id
-  description: "第一次來這裡，我們最推薦這家。",
-  rating: 4.5,
-  distance: "步行 5 分鐘",
-  image: "/images/food/lunch-1.jpg",
-  imageAlt: "XXX 牛肉麵的招牌牛肉麵",
-  mapUrl: "https://maps.google.com/",
-  featured: true,                 // true 才會出現在度假小屋頁的「度假小屋主人推薦」
+  id: "cafe-huazhai",
+  name: "花宅咖啡",
+  category: "cafe",              // 必須是 foodCategories 其中一個 id
+  mapUrl: mapUrl("花宅咖啡"),     // 用店名自動組 Google Maps 搜尋連結
+  featured: true,                // true 才會出現在度假小屋頁的推薦區
 }
 ```
 
+`description`、`rating`、`distance`、`image`、`imageAlt` 都是選填，
+沒填卡片會自動收合那一區，不會留白。
+
+⚠️ 評價與距離請填實際查證過的數字；照片請用自己拍的或店家授權的。
+
 `featured: true` 建議維持 **3 家**，推薦區是 3 欄，剛好排滿一列。
 
-要新增分類（例如「宵夜」），在同一支檔案的 `foodCategories` 加一筆即可，
-篩選按鈕會自動多一顆。
+要新增分類，在同一支檔案的 `foodCategories` 加一筆即可，篩選按鈕會自動多一顆。
+頁面上的兩則提醒文字在同一支檔案的 `foodNotes`。
 
 ### 改附近景點 → `data/attractions.js`
 
@@ -220,8 +222,3 @@ Footer、度假小屋頁、交通頁都讀同一份，改一次就好。
 - RAG
 - AI Agent
 
-## 目前使用的是範例資料
-
-`data/food.js` 裡的 **8 家店全部是範例**（店名 `XXX ○○`、評價、距離都是假的），
-`data/stay.js` 的地址也還是「台東縣長濱鄉」。
-對外正式使用前請換成真實資料。
