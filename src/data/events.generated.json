@@ -1,18 +1,7 @@
 {
   "_說明": "此檔由 scripts/fetch-taitung-events.mjs 自動產生，請勿手動編輯",
-  "_更新時間": "2026-08-31T07:17:43.534Z",
+  "_更新時間": "2026-09-01T00:14:54.551Z",
   "events": [
-    {
-      "id": "Event_376540000A_006245",
-      "town": "長濱鄉",
-      "name": "2026來長濱~米SALAMA!系列活動",
-      "startDate": "2026-07-03",
-      "endDate": "2026-08-31",
-      "location": "長濱鄉",
-      "description": "2026來長濱~米SALAMA!好好玩地圖集點",
-      "link": "",
-      "mapUrl": "https://www.google.com/maps/search/?api=1&query=23.31682,121.4554"
-    },
     {
       "id": "Event_A15010100H_005799",
       "town": "綠島鄉",
@@ -78,6 +67,17 @@
       "description": "2026 東海岸大地藝術節《身即海洋》",
       "link": "",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=23.02034,121.32495"
+    },
+    {
+      "id": "Event_376540000A_006285",
+      "town": "臺東市",
+      "name": "百歲人瑞故事寫真",
+      "startDate": "2026-09-01",
+      "endDate": "2026-09-30",
+      "location": "臺東市 活動地點未定",
+      "description": "百歲人瑞故事寫真",
+      "link": "",
+      "mapUrl": "https://www.google.com/maps/search/?api=1&query=22.75547,121.14834"
     },
     {
       "id": "Event_376540000A_006426",
