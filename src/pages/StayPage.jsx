@@ -2,10 +2,12 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, CalendarCheck, MapPin, Navigation } from "lucide-react";
 import { businesses } from "../data/businesses.js";
+import { environmentPhotos } from "../data/environment.js";
 import { experiences } from "../data/experiences.js";
 import { foodShops } from "../data/food.js";
 import { site } from "../data/site.js";
 import { stay } from "../data/stay.js";
+import EnvironmentGallery from "../components/EnvironmentGallery.jsx";
 import ExperienceCard from "../components/ExperienceCard.jsx";
 import FoodCard from "../components/FoodCard.jsx";
 import Reveal from "../components/Reveal.jsx";
@@ -16,7 +18,7 @@ import SocialLinks from "../components/SocialLinks.jsx";
  * 度假小屋頁（/stay）
  *
  * 定位不是「度假小屋介紹頁」，而是「體驗中心」：
- *   Hero → 度假小屋主人推薦 → 美食地圖入口 → 在地體驗 → 我們的位置
+ *   Hero → 環境介紹 → 度假小屋主人推薦 → 美食地圖入口 → 在地體驗 → 我們的位置
  */
 export default function StayPage() {
   // 度假小屋的名稱與訂房連結都來自 businesses.js，不在這裡重複寫一次
@@ -105,6 +107,109 @@ export default function StayPage() {
               />
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ==================== 環境介紹 ==================== */}
+      <section
+        aria-labelledby="environment-heading"
+        className="px-5 py-16 sm:px-8 sm:py-20"
+      >
+        <div className="mx-auto max-w-6xl">
+          <Reveal>
+            <SectionHeading
+              emoji={stay.environment.emoji}
+              title={stay.environment.title}
+              titleId="environment-heading"
+            />
+          </Reveal>
+
+          <Reveal>
+            <div className="mt-6 max-w-3xl space-y-4 text-[0.95rem] leading-relaxed text-muted sm:text-base">
+              {stay.environment.intro.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </Reveal>
+
+          <div className="mt-10 sm:mt-12">
+            <EnvironmentGallery
+              photos={environmentPhotos}
+              moreLabel={stay.environment.gallery.moreLabel}
+              lessLabel={stay.environment.gallery.lessLabel}
+            />
+          </div>
+
+          {/* 基本設施與服務 */}
+          <div className="mt-12 grid gap-5 sm:grid-cols-2">
+            <Reveal className="h-full">
+              <div className="h-full rounded-[1.5rem] bg-surface p-6 ring-1 ring-black/[0.06] shadow-[0_1px_2px_rgba(16,24,40,0.04),0_14px_32px_-18px_rgba(16,24,40,0.12)]">
+                <h3 className="flex items-center gap-2.5 text-lg font-medium">
+                  <span aria-hidden="true">
+                    {stay.environment.facilities.emoji}
+                  </span>
+                  {stay.environment.facilities.title}
+                </h3>
+
+                <dl className="mt-4 space-y-3">
+                  {stay.environment.facilities.items.map((item) => (
+                    <div key={item.label} className="flex flex-wrap gap-x-2 gap-y-1">
+                      <dt className="shrink-0 text-[0.9rem] font-medium text-forest">
+                        {item.label}
+                      </dt>
+                      <dd className="text-[0.9rem] leading-relaxed text-muted">
+                        {item.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </Reveal>
+
+            <Reveal delay={90} className="h-full">
+              <div className="h-full rounded-[1.5rem] bg-surface p-6 ring-1 ring-black/[0.06] shadow-[0_1px_2px_rgba(16,24,40,0.04),0_14px_32px_-18px_rgba(16,24,40,0.12)]">
+                <h3 className="flex items-center gap-2.5 text-lg font-medium">
+                  <span aria-hidden="true">
+                    {stay.environment.services.emoji}
+                  </span>
+                  {stay.environment.services.title}
+                </h3>
+
+                <ul className="mt-4 space-y-2">
+                  {stay.environment.services.items.map((item) => (
+                    <li
+                      key={item}
+                      className="text-[0.9rem] leading-relaxed text-muted"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          </div>
+
+          {/* 看完環境才心動的人，在這裡再接一次訂房 */}
+          <Reveal>
+            <div className="mt-10 flex justify-center">
+              <a
+                href={hotel.links.booking}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${stay.environment.ctaLabel}：${hotel.name}`}
+                className="group/cta inline-flex min-h-12 items-center gap-2.5 rounded-full bg-forest px-7 py-3 text-[0.95rem] font-medium text-white transition-[translate,background-color,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:bg-forest-soft hover:shadow-[0_14px_28px_-12px_rgba(30,59,51,0.75)]"
+              >
+                <CalendarCheck size={18} strokeWidth={2} aria-hidden="true" />
+                {stay.environment.ctaLabel}
+                <ArrowRight
+                  size={16}
+                  strokeWidth={2}
+                  aria-hidden="true"
+                  className="transition-transform duration-300 ease-out group-hover/cta:translate-x-1"
+                />
+              </a>
+            </div>
+          </Reveal>
         </div>
       </section>
 

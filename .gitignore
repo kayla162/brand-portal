@@ -32,3 +32,6 @@ logs
 # 快取
 .vite
 *.local
+
+# 圖片原檔（壓縮前的相機原始檔，不進版控也不上傳）
+assets-src

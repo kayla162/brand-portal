@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview --port 4173"
+    "preview": "vite preview --port 4173",
+    "optimize:images": "node scripts/optimize-stay-images.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.33.0",
@@ -18,6 +19,7 @@
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "@vitejs/plugin-react": "^6.1.0",
+    "sharp": "^0.35.4",
     "tailwindcss": "^4.3.3",
     "vite": "^8.2.2"
   }

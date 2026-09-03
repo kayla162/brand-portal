@@ -11,7 +11,8 @@
 /                首頁 —— Hero + 三張品牌卡片（度假小屋 / 美妝保養 / 女裝服飾）
 │
 └── /stay        度假小屋頁（體驗中心）
-    │            Hero + 立即訂房 → 度假小屋主人推薦 → 美食地圖入口 → 在地體驗 → 我們的位置
+    │            Hero + 立即訂房 → 環境介紹 → 度假小屋主人推薦 → 美食地圖入口
+    │            → 在地體驗 → 我們的位置
     │
     ├── /food-map     美食地圖 —— 4 分類 23 家店 + Google Maps 連結
     ├── /attractions  附近景點 —— 依距離分組 + Google Maps 連結
@@ -57,14 +58,16 @@ npm run preview   # 在本機預覽 build 後的結果
 │   └── update-events.yml           每天自動更新台東活動資料
 ├── scripts/
 │   ├── fetch-taitung-events.mjs    從 TDX 抓活動，寫成 events.generated.json
-│   └── check-tdx-events.mjs        檢查 TDX 資料量與品質（開發用）
+│   ├── check-tdx-events.mjs        檢查 TDX 資料量與品質（開發用）
+│   └── optimize-stay-images.mjs    把環境照原檔壓成網頁用的 WebP
 ├── vite.config.js
 ├── public/
 │   ├── favicon.svg / favicon.ico / apple-touch-icon.png
 │   └── images/
 │       ├── store-a.jpg  store-b.jpg  hotel.jpg    品牌卡片圖（16:9）
 │       ├── hero.jpg                               只用於社群分享預覽，頁面上不顯示
-│       └── food/                                  美食店家圖（16:9）
+│       ├── food/                                  美食店家圖（16:9）
+│       └── stay/                                  環境照（WebP，由腳本產生）
 └── src/
     ├── main.jsx                    進入點（BrowserRouter）
     ├── App.jsx                     共用外框（Header / Footer）+ 路由表
@@ -82,6 +85,7 @@ npm run preview   # 在本機預覽 build 後的結果
     │   ├── site.js                 網站文字：品牌名、標語、Hero、Footer、聯絡資訊
     │   ├── stay.js                 度假小屋頁文字、地址、Google Maps 連結
     │   ├── food.js                 美食 4 分類 + 23 家店 + 提醒文字
+    │   ├── environment.js          環境照清單（順序＝顯示順序）
     │   ├── experiences.js          在地體驗四張卡片
     │   ├── attractions.js          附近景點（分組 + 11 個景點）
     │   ├── itineraries.js          半日遊 / 一日遊 四條路線
@@ -94,6 +98,7 @@ npm run preview   # 在本機預覽 build 後的結果
         ├── BusinessGrid.jsx        品牌卡片排版（手機 1 欄 / 桌機 2 欄）
         ├── BusinessCard.jsx        品牌卡片
         ├── FoodCard.jsx            美食店家卡片
+        ├── EnvironmentGallery.jsx  環境照相簿（預設 8 張，可展開全部）
         ├── ExperienceCard.jsx      在地體驗卡片
         ├── AttractionCard.jsx      附近景點卡片
         ├── ItineraryCard.jsx       行程卡片
@@ -222,6 +227,32 @@ Footer、度假小屋頁、交通頁都讀同一份，改一次就好。
 建議 **16:9**、JPG。品牌卡片圖 1600×900，美食圖 800×450。
 **上傳前先壓縮**（https://squoosh.app 品質調 80 左右），每張控制在 300 KB 以內。
 所有圖片使用 `object-fit: cover`，比例不同也不會變形，只會裁切。
+
+### 新增或替換環境照
+
+環境照跟其他圖片不同，**不要手動壓縮後丟進 `public/`**，走腳本：
+
+1. 把相機原檔放進 `assets-src/stay/`，檔名用數字（`1.JPG`、`2.JPG`…），數字就是顯示順序
+2. 跑 `npm run optimize:images`
+3. 到 `src/data/environment.js` 補上對應的物件（`src` / `alt`）
+
+腳本會自動依 EXIF 轉正、長邊縮到 1280、轉 WebP、清掉含 GPS 的 EXIF。
+26 張原檔約 97 MB，壓完約 5.5 MB。
+
+> `assets-src/` 已在 `.gitignore`。原檔留在你電腦裡，不會進版控也不會上傳，
+> 否則 git 倉庫會永久胖將近 100 MB。
+
+照片會裁成 **4:3** 顯示。主體偏畫面下緣的照片（例如鞦韆座板、長桌），
+在 `environment.js` 加 `focus: "50% 72%"` 指定對焦位置，否則會被切掉。
+
+**要遮蔽車牌、門牌之類的東西**，改 `optimize-stay-images.mjs` 裡的 `REDACTIONS`，
+不要手動修圖再丟進 `public/` —— 下次重跑腳本會被原圖蓋回去。座標用 0～1 的比例：
+
+```js
+const REDACTIONS = {
+  "9.JPG": [{ left: 0.183, top: 0.532, width: 0.034, height: 0.028 }],
+};
+```
 
 ### 新增頁面
 
