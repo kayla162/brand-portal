@@ -38,7 +38,8 @@ export const businesses = [
       facebook: "https://www.facebook.com/share/1C47kvLZhQ/?mibextid=wwXIfr",
       instagram: "https://www.instagram.com/hxu298688?igsi=MWJtYnpsbnczNmw5MA==",
       line: "https://line.me/R/ti/p/@706nlpsu",
-      booking:"https://peaceful-begonia-112xs3t.mystrikingly.com/"
+      booking:
+        "https://docs.google.com/forms/d/e/1FAIpQLSfs-tvJ0PulG9VNMcwFHHNP6WcEBHtRzlkNnrA-IUDZiCvDuQ/viewform?usp=header",
     },
     page: "/stay",
     primary: "booking",

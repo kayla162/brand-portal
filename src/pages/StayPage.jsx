@@ -65,7 +65,7 @@ export default function StayPage() {
               {stay.hero.subtitle}
             </p>
 
-            {/* 主要 CTA：導向外部訂房網站 */}
+            {/* 主要 CTA：導向外部的訂房需求表單 */}
             <div
               className="animate-rise mt-9 flex flex-wrap items-center gap-x-3 gap-y-4"
               style={{ animationDelay: "300ms" }}

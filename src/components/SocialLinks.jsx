@@ -19,7 +19,7 @@ const LINK_META = {
   instagram: { label: "Instagram", Icon: Instagram },
   line: { label: "LINE 官方帳號", Icon: Line },
   website: { label: "官方網站", Icon: Globe },
-  booking: { label: "訂房網站", Icon: CalendarCheck },
+  booking: { label: "訂房需求表單", Icon: CalendarCheck },
 };
 
 /** 按鈕顯示順序 */
