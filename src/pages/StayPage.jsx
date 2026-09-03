@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, CalendarCheck, MapPin, Navigation } from "lucide-react";
+import { Facebook, Line } from "../components/icons/BrandIcons.jsx";
 import { businesses } from "../data/businesses.js";
 import { environmentPhotos } from "../data/environment.js";
 import { experiences } from "../data/experiences.js";
@@ -18,7 +19,8 @@ import SocialLinks from "../components/SocialLinks.jsx";
  * 度假小屋頁（/stay）
  *
  * 定位不是「度假小屋介紹頁」，而是「體驗中心」：
- *   Hero → 環境介紹 → 度假小屋主人推薦 → 美食地圖入口 → 在地體驗 → 我們的位置
+ *   Hero → 環境介紹（含房間洽詢）→ 度假小屋主人推薦 → 美食地圖入口
+ *   → 在地體驗 → 我們的位置
  */
 export default function StayPage() {
   // 度假小屋的名稱與訂房連結都來自 businesses.js，不在這裡重複寫一次
@@ -139,6 +141,78 @@ export default function StayPage() {
               lessLabel={stay.environment.gallery.lessLabel}
             />
           </div>
+
+          {/* 房間內部照片不放在網站上，這一段把「看不到」轉成「來問我們」 */}
+          <Reveal>
+            <div className="mt-12 rounded-[1.75rem] bg-forest/[0.05] px-6 py-11 text-center ring-1 ring-forest/[0.07] sm:px-12 sm:py-14">
+              {/* 引言用 <p> 而不是標題，因為它不是章節標題，只是一句話。
+                  襯線體與字級沿用全站 h1～h3 的質感，讀起來才像引言。
+
+                  以全形逗號切開、每段包成 inline-block：
+                  中文預設可以在任何字之間斷行，手機上會出現「住進一／段慢下來的
+                  時光」這種把詞拆開的難看斷法。inline-block 是不可分割的行內方塊，
+                  瀏覽器會優先在段與段之間換行，也就是斷在逗號後面。
+                  用 split 而不是寫死，換文案也一樣有效。 */}
+              <p className="mx-auto max-w-2xl font-serif text-[1.6rem] font-medium leading-[1.5] tracking-[-0.01em] sm:text-[2rem]">
+                {stay.environment.roomInquiry.quote
+                  .split("，")
+                  .map((clause, index, clauses) => (
+                    <span key={clause} className="inline-block">
+                      {clause}
+                      {index < clauses.length - 1 ? "，" : ""}
+                    </span>
+                  ))}
+              </p>
+
+              <p className="mx-auto mt-5 max-w-xl text-[0.95rem] leading-relaxed text-muted sm:text-base">
+                {stay.environment.roomInquiry.description}
+              </p>
+
+              {/* 按鈕就放在這句話下面。讀到、動念、能按，要在同一個畫面裡完成，
+                  讓人捲回去找 Hero 的 icon 列會流失掉一半的人。
+
+                  次按鈕用白底而不是慣用的 bg-forest/8 ——
+                  這塊面板本身已經是 forest/5 的淡綠，淺綠按鈕疊上去幾乎看不見。
+
+                  兩顆都給 min-w：手機寬度放不下並排，會垂直堆疊，
+                  文字長度不同會讓左右邊緣參差，看起來像沒對齊。 */}
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+                <a
+                  href={hotel.links.line}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${stay.environment.roomInquiry.lineLabel}：${hotel.name}`}
+                  className="group/line inline-flex min-h-12 min-w-[13.5rem] items-center justify-center gap-2.5 rounded-full bg-forest px-7 py-3 text-[0.95rem] font-medium text-white transition-[translate,background-color,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:bg-forest-soft hover:shadow-[0_14px_28px_-12px_rgba(30,59,51,0.75)]"
+                >
+                  <Line size={18} strokeWidth={2} />
+                  {stay.environment.roomInquiry.lineLabel}
+                  <ArrowRight
+                    size={16}
+                    strokeWidth={2}
+                    aria-hidden="true"
+                    className="transition-transform duration-300 ease-out group-hover/line:translate-x-1"
+                  />
+                </a>
+
+                <a
+                  href={hotel.links.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${stay.environment.roomInquiry.facebookLabel}：${hotel.name}`}
+                  className="group/fb inline-flex min-h-12 min-w-[13.5rem] items-center justify-center gap-2.5 rounded-full bg-surface px-7 py-3 text-[0.95rem] font-medium text-forest ring-1 ring-forest/12 transition-[translate,background-color,color,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:bg-forest hover:text-white hover:shadow-[0_14px_28px_-12px_rgba(30,59,51,0.5)]"
+                >
+                  <Facebook size={18} strokeWidth={2} />
+                  {stay.environment.roomInquiry.facebookLabel}
+                  <ArrowRight
+                    size={16}
+                    strokeWidth={2}
+                    aria-hidden="true"
+                    className="transition-transform duration-300 ease-out group-hover/fb:translate-x-1"
+                  />
+                </a>
+              </div>
+            </div>
+          </Reveal>
 
           {/* 基本設施與服務 */}
           <div className="mt-12 grid gap-5 sm:grid-cols-2">
