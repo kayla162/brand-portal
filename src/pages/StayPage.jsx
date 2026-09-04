@@ -2,12 +2,15 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, CalendarCheck, MapPin, Navigation } from "lucide-react";
 import { Facebook, Line } from "../components/icons/BrandIcons.jsx";
+import { availability } from "../data/availability.js";
+import availabilityData from "../data/availability.generated.json";
 import { businesses } from "../data/businesses.js";
 import { environmentPhotos } from "../data/environment.js";
 import { experiences } from "../data/experiences.js";
 import { foodShops } from "../data/food.js";
 import { site } from "../data/site.js";
 import { stay } from "../data/stay.js";
+import AvailabilityCalendar from "../components/AvailabilityCalendar.jsx";
 import EnvironmentGallery from "../components/EnvironmentGallery.jsx";
 import ExperienceCard from "../components/ExperienceCard.jsx";
 import FoodCard from "../components/FoodCard.jsx";
@@ -19,8 +22,8 @@ import SocialLinks from "../components/SocialLinks.jsx";
  * 度假小屋頁（/stay）
  *
  * 定位不是「度假小屋介紹頁」，而是「體驗中心」：
- *   Hero → 環境介紹（含房間洽詢）→ 度假小屋主人推薦 → 美食地圖入口
- *   → 在地體驗 → 我們的位置
+ *   Hero → 環境介紹（含房間洽詢）→ 空房查詢 → 度假小屋主人推薦
+ *   → 美食地圖入口 → 在地體驗 → 我們的位置
  */
 export default function StayPage() {
   // 度假小屋的名稱與訂房連結都來自 businesses.js，不在這裡重複寫一次
@@ -262,10 +265,38 @@ export default function StayPage() {
               </div>
             </Reveal>
           </div>
+        </div>
+      </section>
+
+      {/* ==================== 空房查詢 ==================== */}
+      <section
+        aria-labelledby="availability-heading"
+        className="px-5 pb-16 sm:px-8 sm:pb-20"
+      >
+        <div className="mx-auto max-w-5xl">
+          <Reveal>
+            <SectionHeading
+              emoji={availability.emoji}
+              title={availability.title}
+              description={availability.subtitle}
+              titleId="availability-heading"
+            />
+          </Reveal>
+
+          <Reveal>
+            <div className="mt-10 sm:mt-12">
+              <AvailabilityCalendar
+                rooms={availabilityData.rooms}
+                booked={availabilityData.booked}
+                generatedAt={availabilityData.generatedAt}
+                copy={availability}
+              />
+            </div>
+          </Reveal>
 
           {/* 看完環境才心動的人，在這裡再接一次訂房 */}
           <Reveal>
-            <div className="mt-10 flex justify-center">
+            <div className="mt-8 flex justify-center">
               <a
                 href={hotel.links.booking}
                 target="_blank"
