@@ -11,8 +11,8 @@
 /                首頁 —— Hero + 三張品牌卡片（度假小屋 / 美妝保養 / 女裝服飾）
 │
 └── /stay        度假小屋頁（體驗中心）
-    │            Hero + 立即訂房 → 環境介紹 → 度假小屋主人推薦 → 美食地圖入口
-    │            → 在地體驗 → 我們的位置
+    │            Hero + 立即訂房 → 環境介紹 → 空房查詢 → 度假小屋主人推薦
+    │            → 美食地圖入口 → 在地體驗 → 我們的位置
     │
     ├── /food-map     美食地圖 —— 4 分類 23 家店 + Google Maps 連結
     ├── /attractions  附近景點 —— 依距離分組 + Google Maps 連結
@@ -55,11 +55,12 @@ npm run preview   # 在本機預覽 build 後的結果
 ├── index.html                      SEO meta（title / description / OG / JSON-LD）、字型、favicon
 ├── vercel.json                     SPA 路由設定（讓 /stay、/food-map 直接開也不會 404）
 ├── .github/workflows/
-│   └── update-events.yml           每天自動更新台東活動資料
+│   ├── update-events.yml           每天自動更新台東活動資料
+│   └── update-availability.yml     每小時自動更新空房資料
 ├── scripts/
-│   ├── fetch-taitung-events.mjs    從 TDX 抓活動，寫成 events.generated.json
-│   ├── check-tdx-events.mjs        檢查 TDX 資料量與品質（開發用）
-│   └── optimize-stay-images.mjs    把環境照原檔壓成網頁用的 WebP
+│   ├── optimize-stay-images.mjs    把環境照原檔壓成網頁用的 WebP
+│   ├── fetch-availability.mjs      抓房間日曆，產生空房資料
+│   └── lib/availability.mjs        iCal 解析（含 node:test 測試）
 ├── vite.config.js
 ├── public/
 │   ├── favicon.svg / favicon.ico / apple-touch-icon.png
@@ -91,7 +92,9 @@ npm run preview   # 在本機預覽 build 後的結果
     │   ├── itineraries.js          半日遊 / 一日遊 四條路線
     │   ├── transport.js            交通方式五種路線
     │   ├── events.js               台東活動頁文字
-    │   └── events.generated.json   ★ 自動產生，請勿手動編輯
+    │   ├── events.generated.json   ★ 自動產生，請勿手動編輯
+    │   ├── availability.js         空房日曆設定（房間、日曆網址）與文案
+    │   └── availability.generated.json  ★ 自動產生，請勿手動編輯
     └── components/
         ├── Header.jsx              Logo + 品牌名稱 + 標語（捲動後變毛玻璃、跨頁導覽）
         ├── Hero.jsx                首頁主視覺
@@ -104,6 +107,7 @@ npm run preview   # 在本機預覽 build 後的結果
         ├── ItineraryCard.jsx       行程卡片
         ├── TransportCard.jsx       交通路線卡片
         ├── EventCard.jsx           活動卡片
+        ├── AvailabilityCalendar.jsx 空房月曆
         ├── RouteSteps.jsx          路線站點串（行程頁與交通頁共用）
         ├── SectionHeading.jsx      區塊標題（各頁共用，避免重複樣式）
         ├── SocialLinks.jsx         社群 / 外部連結 icon 按鈕列
@@ -227,6 +231,28 @@ Footer、度假小屋頁、交通頁都讀同一份，改一次就好。
 建議 **16:9**、JPG。品牌卡片圖 1600×900，美食圖 800×450。
 **上傳前先壓縮**（https://squoosh.app 品質調 80 左右），每張控制在 300 KB 以內。
 所有圖片使用 `object-fit: cover`，比例不同也不會變形，只會裁切。
+
+### 空房日曆
+
+資料來源是兩本 Google 日曆（荷花、遠山），一間房一本。
+GitHub Actions 每小時抓一次，只在空房狀況真的改變時才 commit。
+
+**新增房間**：在 `data/availability.js` 的 `rooms` 加一個物件，
+再跑 `npm run update:availability`。月曆每格的點數會自動跟著變。
+
+```bash
+npm run update:availability            # 手動更新
+npm run update:availability -- --check # 只看解析結果，不寫檔
+npm test                               # 跑解析邏輯的測試
+```
+
+> ⚠️ 日曆的共用設定必須是「將日曆公開」+「**只顯示空/忙 (隱藏詳細資訊)**」。
+> 若誤設成「查看所有活動詳細資訊」，客人姓名就會透過那個公開網址外流。
+> 抓取腳本刻意不讀取活動標題，所以姓名不會進到這個公開 repo，
+> 但外流發生在 Google 那一端，程式擋不住。
+
+測試裡最重要的一項是 `DTEND` 的邊界 —— 9/10 入住、9/12 退房佔的是**兩晚不是三晚**。
+寫錯會少接一天生意，或反過來造成重複訂房。
 
 ### 新增或替換環境照
 
