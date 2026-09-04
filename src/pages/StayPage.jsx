@@ -273,7 +273,7 @@ export default function StayPage() {
         aria-labelledby="availability-heading"
         className="px-5 pb-16 sm:px-8 sm:pb-20"
       >
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-6xl">
           <Reveal>
             <SectionHeading
               emoji={availability.emoji}
