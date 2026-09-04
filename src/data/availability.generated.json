@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2026-09-04T11:58:47+08:00",
+  "rooms": [
+    {
+      "id": "lotus",
+      "name": "荷花"
+    },
+    {
+      "id": "mountain",
+      "name": "遠山"
+    }
+  ],
+  "booked": {
+    "2026-10-22": [
+      "mountain"
+    ],
+    "2026-10-23": [
+      "mountain"
+    ]
+  }
+}

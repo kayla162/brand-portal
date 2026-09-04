@@ -9,6 +9,7 @@
     "build": "vite build",
     "preview": "vite preview --port 4173",
     "optimize:images": "node scripts/optimize-stay-images.mjs",
+    "update:availability": "node scripts/fetch-availability.mjs",
     "test": "node --test \"scripts/**/*.test.mjs\""
   },
   "dependencies": {
