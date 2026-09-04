@@ -35,12 +35,18 @@ export const availability = {
     },
   ],
 
-  /** 最多可以往後翻幾個月（含當月）。往回翻沒有意義，不提供 */
+  /** 主月曆最多往後翻幾個月（含當月）；桌機右側會多顯示下一個月，所以桌機最遠看得到第 7 個月。往回翻沒有意義，不提供。 */
   monthsAhead: 6,
 
   emoji: "📅",
   title: "空房查詢",
   subtitle: "實心的點代表這間房這天還訂得到。",
+
+  /** 月曆格子與圖例的樣板文字，{ } 佔位字會被換成實際數字 */
+  pastLabel: "{month} 月 {day} 日，已過",
+  cellLabel: "{month} 月 {day} 日，{total} 間中剩 {free} 間",
+  roomCountSuffix: "共 {count} 間",
+
   legendAvailable: "可訂",
   legendBooked: "已訂",
   updatedPrefix: "資料更新於",

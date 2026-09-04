@@ -13,12 +13,15 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
  *
  *  手機顯示一個月，桌機並排兩個月（一次看得到更多日期比較好挑）。
  *  切換一次移動一個月，所以桌機上翻頁會有一個月的重疊，這是刻意的。
+ *  翻到最後一頁時，桌機右側那個月會比 monthsAhead 多一個月（看得到第 7 個
+ *  月）—— 右側本來就是「下個月」的預覽，不受 monthsAhead 限制，這也是刻意的。
  *
  *  ⚠️ 顏色與形狀不能是唯一的資訊來源，所以每一格另外給 aria-label，
  *     讓讀屏軟體念得出「10 月 22 日，2 間中剩 1 間」。
  * ============================================================================
  */
 
+// 曆法語法，不是可編輯的文案
 const WEEKDAYS = ["日", "一", "二", "三", "四", "五", "六"];
 
 /** 台灣時間的今天。民宿在台東，不能跟著瀏覽器所在時區跑 */
@@ -44,7 +47,7 @@ function isoDate(year, month, day) {
 }
 
 /** 單一個月的格線。桌機會並排兩個 */
-function MonthGrid({ year, month, today, rooms, booked, className = "" }) {
+function MonthGrid({ year, month, today, rooms, booked, copy, className = "" }) {
   const cells = monthCells(year, month);
 
   return (
@@ -75,8 +78,14 @@ function MonthGrid({ year, month, today, rooms, booked, className = "" }) {
               key={date}
               aria-label={
                 past
-                  ? `${month + 1} 月 ${day} 日，已過`
-                  : `${month + 1} 月 ${day} 日，${rooms.length} 間中剩 ${free} 間`
+                  ? copy.pastLabel
+                      .replace("{month}", String(month + 1))
+                      .replace("{day}", String(day))
+                  : copy.cellLabel
+                      .replace("{month}", String(month + 1))
+                      .replace("{day}", String(day))
+                      .replace("{total}", String(rooms.length))
+                      .replace("{free}", String(free))
               }
               className={`flex aspect-square flex-col items-center justify-center gap-1 rounded-xl ${
                 past
@@ -155,6 +164,7 @@ export default function AvailabilityCalendar({ rooms, booked, generatedAt, copy 
           today={today}
           rooms={rooms}
           booked={booked}
+          copy={copy}
         />
         <MonthGrid
           year={second.getUTCFullYear()}
@@ -162,6 +172,7 @@ export default function AvailabilityCalendar({ rooms, booked, generatedAt, copy 
           today={today}
           rooms={rooms}
           booked={booked}
+          copy={copy}
           className="hidden lg:block"
         />
       </div>
@@ -176,7 +187,7 @@ export default function AvailabilityCalendar({ rooms, booked, generatedAt, copy 
           {copy.legendBooked}
         </span>
         <span>
-          {rooms.map((room) => room.name).join("、")}　共 {rooms.length} 間
+          {rooms.map((room) => room.name).join("、")}　{copy.roomCountSuffix.replace("{count}", String(rooms.length))}
         </span>
       </div>
 
