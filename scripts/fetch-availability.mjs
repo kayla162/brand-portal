@@ -46,7 +46,11 @@ function taipeiNow() {
 }
 
 async function fetchRoom(room) {
-  const response = await fetch(room.icsUrl);
+  // 給 20 秒逾時：日曆檔案通常只有幾 KB，20 秒已經很寬裕。沒有逾時的話，
+  // 對方沒回應會卡住整個排程，跟設計預期的「快速失敗、維持舊資料」相反。
+  const response = await fetch(room.icsUrl, {
+    signal: AbortSignal.timeout(20000),
+  });
   if (!response.ok) {
     throw new Error(`${room.name} 的日曆回應 HTTP ${response.status}`);
   }
@@ -104,16 +108,23 @@ async function main() {
     return;
   }
 
-  // 只在「被訂走的日期」真的改變時才寫檔。
-  // generatedAt 每次都不一樣，若無條件寫入，排程會每小時 commit 一次假異動。
-  let previousBooked = null;
+  // 只在「rooms 或 booked 真的變了」才寫檔——比對整份 payload、只排除
+  // generatedAt。早期版本只比 booked：只要那次執行剛好沒有訂房異動，
+  // 改房名、加房間這種事也會被誤判成沒變而不寫檔，網站就會一直停在舊的
+  // 房間清單，即使照文件操作也不會生效。
+  // generatedAt 本來就每次執行都不同，才特意排除；不排除的話等於無條件
+  // 寫檔，排程會每小時 commit 一次假異動。
+  let previous = null;
   try {
-    previousBooked = JSON.parse(await readFile(OUTPUT, "utf8")).booked;
+    const parsed = JSON.parse(await readFile(OUTPUT, "utf8"));
+    previous = { rooms: parsed.rooms, booked: parsed.booked };
   } catch {
-    // 檔案還不存在，第一次執行
+    // 檔案還不存在或壞掉，視為第一次執行
   }
 
-  if (JSON.stringify(previousBooked) === JSON.stringify(payload.booked)) {
+  const current = { rooms: payload.rooms, booked: payload.booked };
+
+  if (JSON.stringify(previous) === JSON.stringify(current)) {
     console.log("\n✅ 空房狀況沒有變動，不寫檔。");
     return;
   }
