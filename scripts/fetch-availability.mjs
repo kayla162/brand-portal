@@ -55,8 +55,10 @@ async function fetchRoom(room) {
     throw new Error(`${room.name} 的日曆回應 HTTP ${response.status}`);
   }
   const text = await response.text();
-  if (!text.includes("BEGIN:VCALENDAR")) {
-    throw new Error(`${room.name} 的回應不是 iCal 內容`);
+  // 兩個標記都要有：只檢查 BEGIN 的話，內容在中間被截斷也會通過檢查，
+  // 截斷後剛好落在哪個事件中間就悄悄漏算，跟完全沒抓到一樣危險。
+  if (!text.includes("BEGIN:VCALENDAR") || !text.includes("END:VCALENDAR")) {
+    throw new Error(`${room.name} 的回應不是完整的 iCal 內容`);
   }
   return [...occupiedNights(text)];
 }

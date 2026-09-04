@@ -57,6 +57,40 @@ test("非全天事件（有時間的）直接略過", () => {
   assert.equal(nights.size, 0);
 });
 
+test("DTSTART 用 DURATION 而非 DTEND：判斷不出佔用範圍，直接中止", () => {
+  // RFC 5545 允許用 DURATION 取代 DTEND，但這支腳本只認 DTEND。
+  // 靜靜略過的話，這筆訂房會整個消失，網站把已訂走的房間顯示成空房。
+  assert.throws(
+    () => occupiedNights(ics("DTSTART;VALUE=DATE:20261022\nDURATION:P2D")),
+    /DTEND/,
+  );
+});
+
+test("含 RRULE 的重複性活動：不展開重複規則，直接中止", () => {
+  // 每週三公休這種需求很可能被設成 RRULE，但這支腳本不會展開重複，
+  // 只會算到第一次，後面每一次重複都會被誤判成空房。
+  assert.throws(
+    () =>
+      occupiedNights(
+        ics(
+          "DTSTART;VALUE=DATE:20260907\nDTEND;VALUE=DATE:20260908\nRRULE:FREQ=WEEKLY;COUNT=5",
+        ),
+      ),
+    /RRULE/,
+  );
+});
+
+test("有時間又有 RRULE 的提醒（迴歸測試）：仍是先被判定為非全天事件而略過，不會誤觸中止", () => {
+  // 新增的 RRULE 檢查必須排在「是不是全天事件」之後，否則屋主自己的
+  // 重複提醒（例如每週一定期打掃）就會被誤判成訂房解析失敗。
+  const nights = occupiedNights(
+    ics(
+      "DTSTART;TZID=Asia/Taipei:20260713T100000\nDTEND;TZID=Asia/Taipei:20260713T120000\nRRULE:FREQ=WEEKLY;COUNT=10",
+    ),
+  );
+  assert.equal(nights.size, 0);
+});
+
 test("完全不讀 SUMMARY，就算日曆設定被改錯也不會外流姓名", () => {
   const nights = occupiedNights(
     ics(

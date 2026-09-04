@@ -37,10 +37,38 @@ export function occupiedNights(icsText) {
   for (const chunk of icsText.split("BEGIN:VEVENT").slice(1)) {
     const event = chunk.split("END:VEVENT")[0];
 
-    // 只認全天事件。有時間的事件不是訂房（可能是屋主自己的提醒），略過
+    // 只認全天事件。有時間的事件不是訂房（可能是屋主自己的提醒），略過。
+    // 這一步一定要排在下面兩個 throw 之前：屋主自己的計時提醒就算有
+    // RRULE（例如每週一提醒打掃），也跟訂房無關，不該讓程式中止。
     const start = event.match(/^DTSTART;VALUE=DATE:(\d{8})/m)?.[1];
+    if (!start) continue;
+
+    // 到這裡代表是全天事件，一定要能完整算出佔用範圍，算不出來就寧可
+    // 整個中止（見檔案最上面的說明），也不要漏夜——漏夜等於把已訂走
+    // 的房間顯示成空房，是這個系統最壞的失敗模式。
+    //
+    // ⚠️ 不展開 RRULE 重複規則：只會算到第一次，之後每一次重複都會被
+    //    當成沒訂房。公休日這類需求很可能被設成重複活動，必須中止。
+    if (/^RRULE:/m.test(event)) {
+      throw new Error(
+        `行事曆裡有一筆從 ${toIsoDate(toUtcMs(start))} 開始的重複性活動（RRULE），` +
+          `這支腳本不會展開重複規則，之後每一次重複都會被誤判成沒訂房。` +
+          `請到 Google 日曆刪除這筆活動，改建立一般的整天活動，不要用重複活動` +
+          `（例如固定公休日，請每一天分開建立一筆）。`,
+      );
+    }
+
+    // ⚠️ RFC 5545 允許用 DURATION 取代 DTEND，但這裡只認 DTEND；
+    //    悄悄跳過的話，這筆訂房會整個消失，同樣是把已訂走的房間顯示成空房。
     const end = event.match(/^DTEND;VALUE=DATE:(\d{8})/m)?.[1];
-    if (!start || !end) continue;
+    if (!end) {
+      throw new Error(
+        `行事曆裡有一筆從 ${toIsoDate(toUtcMs(start))} 開始的全天活動，` +
+          `找不到對應的結束日期（DTEND），無法判斷這筆訂房佔用到哪一天。` +
+          `請到 Google 日曆刪除這筆活動，改建立一般的整天活動` +
+          `（直接設定開始與結束日期，不要用重複活動）。`,
+      );
+    }
 
     for (let ms = toUtcMs(start); ms < toUtcMs(end); ms += DAY_MS) {
       nights.add(toIsoDate(ms));

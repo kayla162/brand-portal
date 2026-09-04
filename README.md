@@ -237,6 +237,11 @@ Footer、度假小屋頁、交通頁都讀同一份，改一次就好。
 資料來源是兩本 Google 日曆（荷花、遠山），一間房一本。
 GitHub Actions 每小時抓一次，只在空房狀況真的改變時才 commit。
 
+> ⚠️ 抓取失敗不會在頁面上跳警告，是靠 GitHub Actions 寄失敗通知信到
+> repo owner 的 GitHub 帳號信箱，記得確認該帳號的 notification 設定
+> 有開 email 通知。如果空房頁面「資料更新於」的時間卡住好幾天沒再往前跳，
+> 就是排程壞掉的徵兆，該去 repo 的 Actions 分頁查是哪一步失敗。
+
 **新增房間**：在 `data/availability.js` 的 `rooms` 加一個物件，
 再跑 `npm run update:availability`。月曆每格的點數會自動跟著變。
 
