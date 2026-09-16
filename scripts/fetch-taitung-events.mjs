@@ -17,6 +17,8 @@
 
 import { writeFile } from "node:fs/promises";
 
+import { isOngoing, taipeiToday } from "./lib/events.mjs";
+
 const AUTH_URL =
   "https://tdx.transportdata.tw/auth/realms/TDXConnect/protocol/openid-connect/token";
 const API_BASE = "https://tdx.transportdata.tw/api/tourism/service/odata/V2/Tourism";
@@ -80,16 +82,6 @@ async function fetchAll(token, params) {
   return all;
 }
 
-/** 現在時間的 OData 字串。資料的日期都帶 +08:00，所以這裡也要帶 */
-function nowForOData() {
-  const pad = (n) => String(n).padStart(2, "0");
-  const d = new Date();
-  return (
-    `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}` +
-    `T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}+08:00`
-  );
-}
-
 /**
  * 把 TDX 的一筆活動轉成網站要用的格式。
  * 網站端的欄位定義請看 src/data/events.js 的說明。
@@ -123,20 +115,21 @@ function toSiteEvent(tdxEvent) {
 
 async function main() {
   const token = await getToken();
-  const now = nowForOData();
+  const today = taipeiToday();
 
+  // ⚠️ 只用縣市當條件，日期不要丟給 TDX 算 —— 原因見 lib/events.mjs 最上面。
   const raw = await fetchAll(token, {
-    $filter:
-      `PostalAddress/City eq '${CITY}'` +
-      ` and StartDateTime le ${now}` +
-      ` and EndDateTime ge ${now}`,
-    $orderby: "EndDateTime asc",
+    $filter: `PostalAddress/City eq '${CITY}'`,
   });
 
   const events = raw
     .map(toSiteEvent)
     // 沒有名稱或日期的資料不要，免得網站顯示怪東西
-    .filter((e) => e.id && e.name && e.startDate && e.endDate);
+    .filter((e) => e.id && e.name && e.startDate && e.endDate)
+    // 只留現在進行中的（開始日已到、結束日還沒過）
+    .filter((e) => isOngoing(e, today))
+    // 照結束日由近到遠，快結束的排前面
+    .sort((a, b) => a.endDate.localeCompare(b.endDate));
 
   const output = {
     // 這兩個欄位只是給人看的，網站不會用到
@@ -149,7 +142,7 @@ async function main() {
 
   console.log(`✅ 已寫入 ${events.length} 筆進行中的活動`);
   const skipped = raw.length - events.length;
-  if (skipped > 0) console.log(`   （略過 ${skipped} 筆缺少名稱或日期的資料）`);
+  if (skipped > 0) console.log(`   （另有 ${skipped} 筆不在期間內或缺少名稱／日期）`);
 }
 
 main().catch((err) => {
