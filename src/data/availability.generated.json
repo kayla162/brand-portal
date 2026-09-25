@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-12T02:23:06+08:00",
+  "generatedAt": "2026-09-26T02:29:24+08:00",
   "rooms": [
     {
       "id": "lotus",
@@ -11,10 +11,6 @@
     }
   ],
   "booked": {
-    "2026-09-25": [
-      "lotus",
-      "mountain"
-    ],
     "2026-09-26": [
       "lotus",
       "mountain"
