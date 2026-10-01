@@ -1,29 +1,7 @@
 {
   "_說明": "此檔由 scripts/fetch-taitung-events.mjs 自動產生，請勿手動編輯",
-  "_更新時間": "2026-09-30T00:00:37.439Z",
+  "_更新時間": "2026-10-01T00:17:05.646Z",
   "events": [
-    {
-      "id": "Event_376540000A_006285",
-      "town": "臺東市",
-      "name": "百歲人瑞故事寫真",
-      "startDate": "2026-09-01",
-      "endDate": "2026-09-30",
-      "location": "臺東市 活動地點未定",
-      "description": "百歲人瑞故事寫真",
-      "link": "",
-      "mapUrl": "https://www.google.com/maps/search/?api=1&query=22.75547,121.14834"
-    },
-    {
-      "id": "Event_376540000A_006426",
-      "town": "臺東市",
-      "name": "2026解憂祭｜放下懂你的AI，來體驗有脾氣的台東",
-      "startDate": "2026-08-08",
-      "endDate": "2026-09-30",
-      "location": "臺東市",
-      "description": "《今年解憂祭將從8/8~9/30透過展覽、音樂節和生活體驗三大系列活動，邀請大家走進臺東，重新感受人與人之間真實的連結。》",
-      "link": "",
-      "mapUrl": "https://www.google.com/maps/search/?api=1&query=22.75547,121.14834"
-    },
     {
       "id": "Event_376540000A_006276",
       "town": "臺東市",
