@@ -1,6 +1,6 @@
 {
   "_說明": "此檔由 scripts/fetch-taitung-events.mjs 自動產生，請勿手動編輯",
-  "_更新時間": "2026-10-30T00:30:57.098Z",
+  "_更新時間": "2026-10-31T00:16:32.011Z",
   "events": [
     {
       "id": "Event_376540000A_006274",
@@ -56,6 +56,17 @@
       "description": "​​提到綠島，您會聯想到什麼呢？是綠島小夜曲、朝日溫泉、還是海洋生物及潛水活動？",
       "link": "",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=22.65127,121.48701"
+    },
+    {
+      "id": "Event_376540000A_006290",
+      "town": "臺東市",
+      "name": "2026 Taiwan PASIWALI Festival 國際原住民音樂節",
+      "startDate": "2026-10-31",
+      "endDate": "2026-11-01",
+      "location": "臺東市 臺東森林公園",
+      "description": "雙腳不落地 乙定最出力",
+      "link": "",
+      "mapUrl": "https://www.google.com/maps/search/?api=1&query=22.76819,121.15624"
     },
     {
       "id": "Event_376540000A_006243",
